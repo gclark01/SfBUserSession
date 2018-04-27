@@ -8,7 +8,7 @@ multiple functions to pull data out of the Get-CsUserSesion to be populated in c
 
 .NOTES
 This script is currently under development along with the accomplining Power BI Reports.
-Any questions / feedback please reach out to Geoff Clark gclark@microsoft.com
+Any questions / feedback please reach out to gclark01
 #>
 
 # Enabling Advanced Functions

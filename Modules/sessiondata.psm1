@@ -72,15 +72,15 @@ function Get-AudioRecords {
         else {
             $arrTokens = ""
         }
-    
+
         [array]$Events += [PSCustomObject][ordered]@{
             SipAddress                                  = $sipAddress
             StartTime                                   = $_.StartTime
             EndTime                                     = $_.EndTime
             DialogId                                    = $_.DialogId
             Conference                                  = $_.ConferenceUrl
-            CallerUri                                   = $_.FromUri
-            CalleeUri                                   = $_.ToUri
+            CallerUri                                   = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+            CalleeUri                                   = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
             CallerIP                                    = $ipaddr.Matches($Ip[0]).value
             CalleeIP                                    = $ipaddr.Matches($Ip[1]).value
             CallerSubnet                                = $subnet.Matches($Ip[0]).value
@@ -214,8 +214,8 @@ function Get-VideoRecords {
             EndTime                        = $_.EndTime
             DialogId                       = $_.DialogId
             Conference                     = $_.ConferenceUrl
-            CallerUri                      = $_.FromUri
-            CalleeUri                      = $_.ToUri
+            CallerUri                      = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+            CalleeUri                      = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
             CallerIP                       = $ipaddr.Matches($Ip[0]).value
             CalleeIP                       = $ipaddr.Matches($Ip[1]).value
             CallerSubnet                   = $subnet.Matches($Ip[0]).value
@@ -331,8 +331,8 @@ function Get-AppShareRecords {
             EndTime                             = $_.EndTime
             DialogId                            = $_.DialogId
             Conference                          = $_.ConferenceUrl
-            CallerUri                           = $_.FromUri
-            CalleeUri                           = $_.ToUri
+            CallerUri                           = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+            CalleeUri                           = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
             CallerIP                            = $ipaddr.Matches($Ip[0]).value
             CalleeIP                            = $ipaddr.Matches($Ip[1]).value
             CallerSubnet                        = $subnet.Matches($Ip[0]).value
@@ -422,14 +422,14 @@ function Get-AudioEvents {
     $sessions | ForEach-Object {
 
         $Ip = get-BaseAddr -objError $_.ErrorReports -isConference $(if ($_.ConferenceUrl -eq "") {$false} else {$true})
-    
+
         [array]$Events += [PSCustomObject][ordered]@{
             StartTime                                   = $_.StartTime
             EndTime                                     = $_.EndTime
             DialogId                                    = $_.DialogId
             Conference                                  = $_.ConferenceUrl
-            CallerUri                                   = $_.FromUri
-            CalleeUri                                   = $_.ToUri
+            CallerUri                                   = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+            CalleeUri                                   = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
             CallerIP                                    = $ipaddr.Matches($Ip[0]).value
             CalleeIP                                    = $ipaddr.Matches($Ip[1]).value
             CallerSubnet                                = $subnet.Matches($Ip[0]).value
@@ -509,13 +509,13 @@ function Get-AudioQuality {
     $sessions | ForEach-Object {
 
         $Ip = get-BaseAddr -objError $_.ErrorReports -isConference $(if ($_.ConferenceUrl -eq "") {$false} else {$true})
-  
+
         [array]$Events += [PSCustomObject][ordered]@{
             StartTime                        = $_.StartTime
             EndTime                          = $_.EndTime
             ConferenceUrl                    = $_.ConferenceUrl
-            CallerUri                        = $_.FromUri
-            CalleeUri                        = $_.ToUri
+            CallerUri                        = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+            CalleeUri                        = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
             CallerUserAgent                  = $_.FromClientVersion
             CalleeUserAgent                  = $_.ToClientVersion
             CallerIP                         = $ipaddr.Matches($Ip[0]).value
@@ -590,8 +590,8 @@ function Get-VideoAppSharingStreams {
             EndTime                       = $_.EndTime
             DialogId                      = $_.DialogId
             Conference                    = $_.ConferenceUrl
-            CallerUri                     = $_.FromUri
-            CalleeUri                     = $_.ToUri
+            CallerUri                     = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+            CalleeUri                     = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
             CallerIP                      = $ipaddr.Matches($Ip[0]).value
             CalleeIP                      = $ipaddr.Matches($Ip[1]).value
             CallerSubnet                  = $subnet.Matches($Ip[0]).value
@@ -856,6 +856,7 @@ function Get-SetupOrDrops {
             $Source = "User"
         }
 
+
         [array]$DiagErrors += [PSCustomObject][ordered]@{
             SipAddress             = $sipAddress
             StartTime              = $_.StartTime
@@ -867,8 +868,8 @@ function Get-SetupOrDrops {
             MediaStartTime         = $_.QoeReport.Session.MediaStartTime
             MediaEndTime           = $_.QoeReport.Session.MediaEndTime
             MediaDurationInSeconds = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
-            CallerUri              = $_.FromUri
-            CalleeUri              = $_.ToUri
+            CallerUri              = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+            CalleeUri              = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
             CallerUserAgent        = $_.FromClientVersion
             CalleeUserAgent        = $_.ToClientVersion
             CallerIp               = $xCallerIP
@@ -912,14 +913,15 @@ function Get-RMC {
             $arrTokens = ""
         }
 
+
         [array]$RMCFeedback += [PSCustomObject][ordered]@{
             SipAddress                         = $sipAddress
             StartTime                          = $_.StartTime
             EndTime                            = $_.EndTime
             DialogId                           = $_.DialogId
             Conference                         = $_.ConferenceUrl
-            CallerUri                          = $_.FromUri
-            CalleeUri                          = $_.ToUri
+            CallerUri                          = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+            CalleeUri                          = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
             CallerIP                           = $ipaddr.Matches($Ip[0]).value
             CalleeIP                           = $ipaddr.Matches($Ip[1]).value
             CallerSubnet                       = $subnet.Matches($Ip[0]).value
@@ -976,17 +978,6 @@ function Get-RMC {
 
 }
 
-function getMeetingId () {
-    param (
-        [string]$s
-    )
-
-    if ($s -ne "") {
-        $s = $s.Substring($s.Length - 8)
-    }
-    
-    return $s
-}
 
 function sessionmgmt {
     param(
@@ -1141,4 +1132,38 @@ function get-StreamParam {
 
     return $strValue
 
+}
+
+# To handle the situation when the server reports the QoE Records
+# Example: If there is a mid-call failure, where the client is unable to report the session then server would report.
+#           However in this case the From Uri and To Uri are flipped in the QoE Results
+# This change will allow for the originating Caller to be represented in the From Uri regardless of who reported the QoE results.
+function getUserUri {
+    param (
+        [string]$Type,
+        [string]$FromUri,
+        [string]$ToUri,
+        [bool]$IsReceived
+    )
+
+    if ($IsReceived -eq $False) {
+        if ($Type -eq "Caller") {
+            $Uri = $ToUri
+        }
+        else {
+            $Uri = $FromUri
+        }
+    } 
+    
+    if ($IsReceived -eq $True) {
+        if ($Type -eq "Caller") {
+            $Uri = $Fromuri
+        }
+        else {
+            $Uri = $ToUri
+        }
+    }
+    
+
+    return $Uri
 }
