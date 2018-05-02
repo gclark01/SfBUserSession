@@ -52,7 +52,7 @@ function Get-AudioRecords {
         [string]$sipAddress
     )
 
-    $sessions = $sessions | Where-Object {$_.MediaTypesDescription -match "Audio" -and $_.QoeReport -ne ""}
+    $sessions = $sessions | Where-Object {$_.MediaTypesDescription -match "Audio" -and $_.QoeReport -ne $null}
 
     # Format Base Address IP Address
     $ipaddr = [regex] "\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b"
@@ -194,7 +194,7 @@ function Get-VideoRecords {
         [string]$sipAddress
     )
 
-    $sessions = $sessions | Where-Object {$_.MediaTypesDescription -eq "[Audio][Video]" -or $_.MediaTypesDescription -eq "[Conference][Audio][Video]" -and $_.QoeReport -ne ""}
+    $sessions = $sessions | Where-Object {$_.MediaTypesDescription -eq "[Audio][Video]" -or $_.MediaTypesDescription -eq "[Conference][Audio][Video]" -and $_.QoeReport -ne $null}
 
     # Format Base Address IP Address
     $ipaddr = [regex] "\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b"
@@ -329,7 +329,7 @@ function Get-AppShareRecords {
         [string]$sipAddress
     )
 
-    $sessions = $sessions | Where-Object {$_.MediaTypesDescription -eq "[AppSharing]" -or $_.MediaTypesDescription -eq "[Conference][AppSharing]" -and $_.QoeReport -ne ""}
+    $sessions = $sessions | Where-Object {$_.MediaTypesDescription -eq "[AppSharing]" -or $_.MediaTypesDescription -eq "[Conference][AppSharing]" -and $_.QoeReport -ne $null}
 
     # Format Base Address IP Address
     $ipaddr = [regex] "\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b"
