@@ -75,7 +75,7 @@ function Get-AudioRecords {
 
         # Check streams only belong to user being searched
         # Set From Uri to handle Server submitted QoE
-        $FromUri = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+        $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
         if ($FromUri -eq $sipAddress) {
 
@@ -85,8 +85,8 @@ function Get-AudioRecords {
                 EndTime                                     = $_.EndTime
                 DialogId                                    = $_.DialogId
                 Conference                                  = $_.ConferenceUrl
-                CallerUri                                   = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
-                CalleeUri                                   = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+                CallerUri                                   = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+                CalleeUri                                   = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
                 CallerIP                                    = $ipaddr.Matches($Ip[0]).value
                 CalleeIP                                    = $ipaddr.Matches($Ip[1]).value
                 CallerSubnet                                = $subnet.Matches($Ip[0]).value
@@ -217,7 +217,7 @@ function Get-VideoRecords {
 
         # Check streams only belong to user being searched
         # Set From Uri to handle Server submitted QoE
-        $FromUri = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+        $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
         if ($FromUri -eq $sipAddress) {
 
@@ -227,8 +227,8 @@ function Get-VideoRecords {
                 EndTime                        = $_.EndTime
                 DialogId                       = $_.DialogId
                 Conference                     = $_.ConferenceUrl
-                CallerUri                      = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
-                CalleeUri                      = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+                CallerUri                      = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+                CalleeUri                      = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
                 CallerIP                       = $ipaddr.Matches($Ip[0]).value
                 CalleeIP                       = $ipaddr.Matches($Ip[1]).value
                 CallerSubnet                   = $subnet.Matches($Ip[0]).value
@@ -341,7 +341,7 @@ function Get-AppShareRecords {
 
         # Check streams only belong to user being searched
         # Set From Uri to handle Server submitted QoE
-        $FromUri = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+        $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
         if ($FromUri -eq $sipAddress) {
 
@@ -351,8 +351,8 @@ function Get-AppShareRecords {
                 EndTime                             = $_.EndTime
                 DialogId                            = $_.DialogId
                 Conference                          = $_.ConferenceUrl
-                CallerUri                           = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
-                CalleeUri                           = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+                CallerUri                           = $_.FromUri
+                CalleeUri                           = $_.ToUri
                 CallerIP                            = $ipaddr.Matches($Ip[0]).value
                 CalleeIP                            = $ipaddr.Matches($Ip[1]).value
                 CallerSubnet                        = $subnet.Matches($Ip[0]).value
@@ -446,7 +446,7 @@ function Get-AudioEvents {
 
         # Check streams only belong to user being searched
         # Set From Uri to handle Server submitted QoE
-        $FromUri = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+        $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
         if ($FromUri -eq $sipAddress) {
 
@@ -455,8 +455,8 @@ function Get-AudioEvents {
                 EndTime                                     = $_.EndTime
                 DialogId                                    = $_.DialogId
                 Conference                                  = $_.ConferenceUrl
-                CallerUri                                   = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
-                CalleeUri                                   = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+                CallerUri                                   = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+                CalleeUri                                   = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
                 CallerIP                                    = $ipaddr.Matches($Ip[0]).value
                 CalleeIP                                    = $ipaddr.Matches($Ip[1]).value
                 CallerSubnet                                = $subnet.Matches($Ip[0]).value
@@ -540,7 +540,7 @@ function Get-AudioQuality {
 
         # Check streams only belong to user being searched
         # Set From Uri to handle Server submitted QoE
-        $FromUri = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+        $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
         if ($FromUri -eq $sipAddress) {
 
@@ -548,8 +548,8 @@ function Get-AudioQuality {
                 StartTime                        = $_.StartTime
                 EndTime                          = $_.EndTime
                 ConferenceUrl                    = $_.ConferenceUrl
-                CallerUri                        = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
-                CalleeUri                        = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+                CallerUri                        = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+                CalleeUri                        = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
                 CallerUserAgent                  = $_.FromClientVersion
                 CalleeUserAgent                  = $_.ToClientVersion
                 CallerIP                         = $ipaddr.Matches($Ip[0]).value
@@ -620,9 +620,10 @@ function Get-VideoAppSharingStreams {
 
         # Check streams only belong to user being searched
         # Set From Uri to handle Server submitted QoE
-        $FromUri = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+        $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
         if ($FromUri -eq $sipAddress) {
+
 
             [array]$Events += [PSCustomObject][ordered]@{
                 SipAddress                    = $sipAddress
@@ -630,8 +631,8 @@ function Get-VideoAppSharingStreams {
                 EndTime                       = $_.EndTime
                 DialogId                      = $_.DialogId
                 Conference                    = $_.ConferenceUrl
-                CallerUri                     = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
-                CalleeUri                     = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+                CallerUri                     = $_.FromUri
+                CalleeUri                     = $_.ToUri
                 CallerIP                      = $ipaddr.Matches($Ip[0]).value
                 CalleeIP                      = $ipaddr.Matches($Ip[1]).value
                 CallerSubnet                  = $subnet.Matches($Ip[0]).value
@@ -837,7 +838,7 @@ function Get-SetupOrDrops {
 
         # Check streams only belong to user being searched
         # Set From Uri to handle Server submitted QoE
-        $FromUri = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+        $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
         if ($FromUri -eq $sipAddress) {
 
@@ -852,8 +853,8 @@ function Get-SetupOrDrops {
                 MediaStartTime         = $_.QoeReport.Session.MediaStartTime
                 MediaEndTime           = $_.QoeReport.Session.MediaEndTime
                 MediaDurationInSeconds = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
-                CallerUri              = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
-                CalleeUri              = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+                CallerUri              = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+                CalleeUri              = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
                 CallerUserAgent        = $_.FromClientVersion
                 CalleeUserAgent        = $_.ToClientVersion
                 CallerIp               = $xCallerIP
@@ -900,7 +901,7 @@ function Get-RMC {
 
         # Check streams only belong to user being searched
         # Set From Uri to handle Server submitted QoE
-        $FromUri = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+        $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
         if ($FromUri -eq $sipAddress) {
 
@@ -910,8 +911,8 @@ function Get-RMC {
                 EndTime                            = $_.EndTime
                 DialogId                           = $_.DialogId
                 Conference                         = $_.ConferenceUrl
-                CallerUri                          = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
-                CalleeUri                          = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoeReport.Session.IsFromReceived
+                CallerUri                          = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+                CalleeUri                          = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
                 CallerIP                           = $ipaddr.Matches($Ip[0]).value
                 CalleeIP                           = $ipaddr.Matches($Ip[1]).value
                 CallerSubnet                       = $subnet.Matches($Ip[0]).value
@@ -1130,6 +1131,37 @@ function get-StreamParam {
 #           However in this case the From Uri and To Uri are flipped in the QoE Results
 # This change will allow for the originating Caller to be represented in the From Uri regardless of who reported the QoE results.
 function getUserUri {
+    param (
+        [string]$Type,
+        [string]$FromUri,
+        [string]$ToUri,
+        [bool]$SubmittedByFromUser
+    )
+
+    if ($SubmittedByFromUser -eq $False) {
+        if ($Type -eq "Caller") {
+            $Uri = $ToUri
+        }
+        else {
+            $Uri = $FromUri
+        }
+    } 
+    
+    if ($SubmittedByFromUser -eq $True) {
+        if ($Type -eq "Caller") {
+            $Uri = $Fromuri
+        }
+        else {
+            $Uri = $ToUri
+        }
+    }
+    
+
+    return $Uri
+}
+
+# Function used in processing of duplicate results
+function getFromUser {
     param (
         [string]$Type,
         [string]$FromUri,
