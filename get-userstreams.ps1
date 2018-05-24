@@ -9,6 +9,10 @@ multiple functions to pull data out of the Get-CsUserSesion to be populated in c
 .NOTES
 This script is currently under development along with the accomplining Power BI Reports.
 Any questions / feedback please reach out to gclark01
+
+.EXAMPLE
+get-userstreams.ps1 -Type Report -startTime 04/01/2018 -endTime 04/15/2018 -ReportPath c:\temp\reports
+
 #>
 
 # Enabling Advanced Functions
