@@ -34,3 +34,6 @@ If you need to utilize the admin override url, you can modify this from pssessio
         #$session = New-CsOnlineSession -Credential $mycredentials -OverrideAdminDomain "domain.onmicrosoft.com"
 }
 ```
+#### General Notes
+This is a in development script.<br>
+Since the script is based on Get-CsUserSession it can take a <b>while</b> to run based on total number of users.
