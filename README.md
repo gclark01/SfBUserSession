@@ -23,3 +23,17 @@ This will output six separate reports to the report path you provided when you e
     <li>VBSS</li>
     <li>Video</li>
 </ul>
+
+### Admin Override URL
+If you need to utilize the admin override url, you can modify this from pssessions.psm1 on line 69.
+
+```PowerShell
+    try {
+        # Create new PSSession
+        $session = New-CsOnlineSession -Credential $mycredentials
+        #$session = New-CsOnlineSession -Credential $mycredentials -OverrideAdminDomain "domain.onmicrosoft.com"
+}
+```
+#### General Notes
+This is a in development script.<br>
+Since the script is based on Get-CsUserSession it can take a <b>while</b> to run based on total number of users.
