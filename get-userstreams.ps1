@@ -34,18 +34,21 @@ Param(
 # Global Variables
 $endTime = $endTime.AddDays(1)
 $Date = (Get-Date).ToString("MMddyyyy_hhmmss")
-$Global:AudioFileName = $Date + "-" + "audio-records.csv"
+$ReportPath = $ReportPath + "\" + "Reports" + "-" + $Date
+
+$Global:AudioFileName = "audio-records.csv"
 $Global:AudioReports = $ReportPath + "\" + $Global:AudioFileName
-$Global:ReliabilityFileName = $Date + "-" + "reliability-records.csv"
+$Global:ReliabilityFileName = "reliability-records.csv"
 $Global:ReliabilityReports = $ReportPath + "\" + $Global:ReliabilityFileName
-$Global:VbssFileName = $Date + "-" + "vbss-records.csv"
+$Global:VbssFileName = "vbss-records.csv"
 $Global:VbssReports = $ReportPath + "\" + $Global:VbssFileName
-$Global:VideoFileName = $Date + "-" + "video-records.csv"
+$Global:VideoFileName = "video-records.csv"
 $Global:VideoReports = $ReportPath + "\" + $Global:VideoFileName
-$Global:AppShareFileName = $Date + "-" + "appshare-records.csv"
+$Global:AppShareFileName = "appshare-records.csv"
 $Global:AppShareReports = $ReportPath + "\" + $Global:AppShareFileName
-$Global:RMCFileName = $Date + "-" + "rmc-records.csv"
+$Global:RMCFileName = "rmc-records.csv"
 $Global:RMCReports = $ReportPath + "\" + $Global:RMCFileName
+
 
 # Set path to save reports
 if (! ([IO.Directory]::Exists($ReportPath))) {
