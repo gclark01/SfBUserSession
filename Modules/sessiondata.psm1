@@ -17,6 +17,7 @@ function Get-QoEReport {
     $VideoRecords = Get-VideoRecords -sessions $sessions -sipAddress $userHash.SipAddress.Split(":")[1]
     $AppShareRecords = Get-AppShareRecords -sessions $sessions -sipAddress $userHash.SipAddress.Split(":")[1]
     $RMCRecords = Get-RMC -sessions $sessions -sipAddress $userHash.SipAddress.Split(":")[1]
+    $IMFEDRecords = Get-IMFederatedDomains -sessions $sessions -sipAddress $userHash.SipAddress.Split(":")[1]
 
     # Write out reports
     if ($AudioRecords) {
@@ -41,6 +42,10 @@ function Get-QoEReport {
 
     if ($RMCRecords) {
         $RMCRecords | Export-Csv -Path $Global:RMCReports -NoTypeInformation -Append
+    }
+
+    if ($IMFEDRecords) {
+        $IMFEDRecords | Export-Csv -Path $Global:IMFEDReports -NoTypeInformation -Append
     }
     
 }
@@ -701,12 +706,11 @@ function Get-VideoAppSharingStreams {
 
 function Get-IMFederatedDomains {
     param (
-        [object]$userHash,
-        [datetime]$startTime,
-        [datetime]$endTime
+        [object]$sessions,
+        [string]$sipAddress
     )
 
-    $sessions = getSession -SipAddress $userHash.SipAddress.Split(":")[1] -startTime $startTime -endTime $endTime
+    #$sessions = getSession -SipAddress $userHash.SipAddress.Split(":")[1] -startTime $startTime -endTime $endTime
 
     $sessions = $sessions | Where-Object {$_.MediaTypesDescription -match "IM"} 
 

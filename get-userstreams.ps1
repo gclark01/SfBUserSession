@@ -48,6 +48,8 @@ $Global:AppShareFileName = "appshare-records.csv"
 $Global:AppShareReports = $ReportPath + "\" + $Global:AppShareFileName
 $Global:RMCFileName = "rmc-records.csv"
 $Global:RMCReports = $ReportPath + "\" + $Global:RMCFileName
+$Global:IMFEDFileName = "imfed-records.csv"
+$Global:IMFEDReports = $ReportPath + "\" + $Global:IMFEDFileName
 
 
 # Set path to save reports
@@ -67,6 +69,7 @@ New-Item -Path $ReportPath -Name $Global:VbssFileName -ItemType File | Out-Null
 New-Item -Path $ReportPath -Name $Global:VideoFileName -ItemType File | Out-Null
 New-Item -Path $ReportPath -Name $Global:AppShareFileName -ItemType File | Out-Null
 New-Item -Path $ReportPath -Name $Global:RMCFileName -ItemType File | Out-Null
+New-Item -Path $ReportPath -Name $Global:IMFEDFileName -ItemType File | Out-Null
 
 
 
