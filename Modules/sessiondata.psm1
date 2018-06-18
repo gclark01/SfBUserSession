@@ -1216,7 +1216,7 @@ function RDPFallBack {
         }
         "51033" {
             $result = $true
-            $reason = "Session fall back to RDP due to progam sharing or window sharing"
+            $reason = "Session fall back to RDP due to program sharing or window sharing"
             break;
         }
         "51034" {
