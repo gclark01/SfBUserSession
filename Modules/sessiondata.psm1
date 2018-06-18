@@ -623,6 +623,11 @@ function Get-VideoAppSharingStreams {
 
         $Ip = get-BaseAddr -objError $_.ErrorReports -isConference $(if ($_.ConferenceUrl -eq "") {$false} else {$true})
 
+        # Get VBSS Stream Info
+        $FallBackResults = RDPFallBack -ErrorReports $_.ErrorReports
+        $FBStatus = $FallBackResults[0]
+        $FBReason = $FallBackResults[1] 
+
         # Check streams only belong to user being searched
         # Set From Uri to handle Server submitted QoE
         $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
@@ -697,6 +702,8 @@ function Get-VideoAppSharingStreams {
                 LowResolutionCallPercent      = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).LowResolutionCallPercent
                 DynamicCapabilityPercent      = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).DynamicCapabilityPercent
                 StreamDirection               = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).StreamDirection
+                FallBackStatus                = $FBStatus
+                FallBackReason                = $FBReason
 
             } 
         }
@@ -1193,4 +1200,50 @@ function getFromUser {
     
 
     return $Uri
+}
+
+# Check if RDP Fallback Occured
+function RDPFallBack {
+    param (
+        [object]$ErrorReports
+    )
+
+    switch ($ErrorReports.DiagnosticId) {
+        "51032" {
+            $result = $true
+            $reason = "Session fall back to RDP due to recording"
+            break;
+        }
+        "51033" {
+            $result = $true
+            $reason = "Session fall back to RDP due to progam sharing or window sharing"
+            break;
+        }
+        "51034" {
+            $result = $true
+            $reason = "Session fall back to RDP due to control is given or control is granted"
+            break;
+        }
+        "52540" {
+            $result = $true
+            $reason = "Session fall back to RDP due to initialization timeout"
+            break;
+        }
+        "52541" {
+            $result = $true
+            $reason = "Session fall back to RDP due to video loss"
+            break;
+        }
+        "21026" {
+            $result = $true
+            $reason = "Session fall back to RDP because a client that does not support VBSS has joined"
+            break;
+        }
+        Default {
+            $result = $false
+            $reason = "Session was VBSS"
+        }
+    }
+
+    return $result, $reason
 }
