@@ -1151,10 +1151,12 @@ function getUserUri {
 
     if ($SubmittedByFromUser -eq $False) {
         if ($Type -eq "Caller") {
-            $Uri = $ToUri
+            #$Uri = $ToUri - pending investigation
+            $Uri = $Fromuri
         }
         else {
-            $Uri = $FromUri
+            #$Uri = $FromUri - pending investigation
+            $Uri = $ToUri
         }
     } 
     
