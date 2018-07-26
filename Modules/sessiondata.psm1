@@ -185,6 +185,14 @@ function Get-AudioRecords {
                 CalleeDeviceRenderMuteEventRatio            = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceRenderMuteEventRatio
                 CalleeDeviceMultipleEndpointsEventCount     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceMultipleEndpointsEventCount
                 CalleeDeviceHowlingEventCount               = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceHowlingEventCount
+                CallerSendSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).SendSignalLevel
+                CallerRecvSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).RecvSignalLevel
+                CallerAudioSpeakerGlitchRate                = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).AudioSpeakerGlitchRate
+                CallerAudioMicGlitchRate                    = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).AudioMicGlitchRate
+                CalleeSendSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).SendSignalLevel
+                CalleeRecvSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).RecvSignalLevel
+                CalleeAudioSpeakerGlitchRate                = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).AudioSpeakerGlitchRate
+                CalleeAudioMicGlitchRate                    = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).AudioMicGlitchRate
             } 
         }
     }
