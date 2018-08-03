@@ -22,6 +22,7 @@ This will output six separate reports to the report path you provided when you e
     <li>Rate My Call</li>
     <li>VBSS</li>
     <li>Video</li>
+    <li>IMFED</li>
 </ul>
 
 ### Admin Override URL
