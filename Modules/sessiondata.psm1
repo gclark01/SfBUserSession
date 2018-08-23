@@ -82,7 +82,7 @@ function Get-AudioRecords {
         # Set From Uri to handle Server submitted QoE
         $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
-        if ($FromUri -eq $sipAddress) {
+        #if ($FromUri -eq $sipAddress) {
 
             [array]$Events += [PSCustomObject][ordered]@{
                 SipAddress                                  = $sipAddress
@@ -194,7 +194,7 @@ function Get-AudioRecords {
                 CalleeAudioSpeakerGlitchRate                = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).AudioSpeakerGlitchRate
                 CalleeAudioMicGlitchRate                    = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).AudioMicGlitchRate
             } 
-        }
+        #}
     }
     return $Events
 
@@ -232,7 +232,7 @@ function Get-VideoRecords {
         # Set From Uri to handle Server submitted QoE
         $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
-        if ($FromUri -eq $sipAddress) {
+        #if ($FromUri -eq $sipAddress) {
 
             [array]$Events += [PSCustomObject][ordered]@{
                 SipAddress                     = $sipAddress
@@ -330,7 +330,7 @@ function Get-VideoRecords {
                 CalleeDynamicCapabilityPercent = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam DynamicCapabilityPercent -strDirection 'TO-to-FROM'
                 CalleeStreamDirection          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam StreamDirection -strDirection 'TO-to-FROM'
             }
-        }
+        #}
     }
     return $Events
 }
@@ -356,7 +356,7 @@ function Get-AppShareRecords {
         # Set From Uri to handle Server submitted QoE
         $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
-        if ($FromUri -eq $sipAddress) {
+        #if ($FromUri -eq $sipAddress) {
 
             [array]$Events += [PSCustomObject][ordered]@{
                 SipAddress                          = $sipAddress
@@ -427,7 +427,7 @@ function Get-AppShareRecords {
                 CalleeStreamDirection               = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam StreamDirection -strDirection 'TO-to-FROM'
             
             }
-        }
+        #}
     }
     return $Events
 
@@ -461,7 +461,7 @@ function Get-AudioEvents {
         # Set From Uri to handle Server submitted QoE
         $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
-        if ($FromUri -eq $sipAddress) {
+        #if ($FromUri -eq $sipAddress) {
 
             [array]$Events += [PSCustomObject][ordered]@{
                 StartTime                                   = $_.StartTime
@@ -523,7 +523,7 @@ function Get-AudioEvents {
                 CalleeDeviceMultipleEndpointsEventCount     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceMultipleEndpointsEventCount
                 CalleeDeviceHowlingEventCount               = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceHowlingEventCount
             }
-        } 
+        #} 
     }
     return $Events
 }
@@ -555,7 +555,7 @@ function Get-AudioQuality {
         # Set From Uri to handle Server submitted QoE
         $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
-        if ($FromUri -eq $sipAddress) {
+        #if ($FromUri -eq $sipAddress) {
 
             [array]$Events += [PSCustomObject][ordered]@{
                 StartTime                        = $_.StartTime
@@ -609,7 +609,7 @@ function Get-AudioQuality {
                 CalleePayloadDescription         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PayloadDescription -strDirection 'TO-to-FROM'
                 
             }
-        }
+        #}
     }
 
     return $Events
@@ -640,7 +640,7 @@ function Get-VideoAppSharingStreams {
         # Set From Uri to handle Server submitted QoE
         $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
-        if ($FromUri -eq $sipAddress) {
+        #if ($FromUri -eq $sipAddress) {
 
 
             [array]$Events += [PSCustomObject][ordered]@{
@@ -714,7 +714,7 @@ function Get-VideoAppSharingStreams {
                 FallBackReason                = $FBReason
 
             } 
-        }
+        #}
     }
     return $Events
 }
@@ -859,7 +859,7 @@ function Get-SetupOrDrops {
         # Set From Uri to handle Server submitted QoE
         $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
-        if ($FromUri -eq $sipAddress) {
+        #if ($FromUri -eq $sipAddress) {
 
             [array]$DiagErrors += [PSCustomObject][ordered]@{
                 SipAddress             = $sipAddress
@@ -884,7 +884,7 @@ function Get-SetupOrDrops {
                 Reason                 = $_.ErrorReports.Where( {$_.RequestType -eq "BYE"}).DiagnosticHeader.Split(";") -match "reason" | ForEach-Object {$_.split('"')[1]} | Select-Object -First 1
 
             }
-        }
+        #}
     }
     
     return $DiagErrors
@@ -922,7 +922,7 @@ function Get-RMC {
         # Set From Uri to handle Server submitted QoE
         $FromUri = getFromUser -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -IsReceived $_.QoEReport.Session.IsFromReceived
         
-        if ($FromUri -eq $sipAddress) {
+        #if ($FromUri -eq $sipAddress) {
 
             [array]$RMCFeedback += [PSCustomObject][ordered]@{
                 SipAddress                         = $sipAddress
@@ -981,14 +981,13 @@ function Get-RMC {
                 Tokens                             = $arrTokens.Id
            
             }
-        }
+        #}
 
     }
 
     return $RMCFeedback
 
 }
-
 
 function sessionmgmt {
     param(
