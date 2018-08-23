@@ -1112,26 +1112,44 @@ function get-BaseAddr {
            
     }
     else {
-        # This will get P2P Callee Base Address
-        if ($objError.RequestType -eq "INVITE") {
-            $diagHeader = $objError.Where( {$_.RequestType -eq "INVITE"})
-            if ($diagHeader) {
-                $CalleeIP = $diagHeader.DiagnosticHeader.Split(";") -match "BaseAddress" | Select-Object -First 1
-            }
-        }
+        
+        # check if this is P2P VBSS Streams
+        if ($objError.Diagnosticheader -match "application-sharing-video") {
             
-        # This will get P2P Caller Base Address
-        if ($objError.DiagnosticHeader -match "UserType=`"Callee`"" -and $objError.RequestType -eq "BYE") {
-            $diagHeader = $objError.Where( {$_.DiagnosticHeader -match "UserType=`"Callee`"" -and $_.RequestType -eq "BYE"})
-            if ($diagHeader) {
+            # Get Caller Base Address
+            if ($objError.DiagnosticHeader -match "UserType=`"Caller`"") {
+                $diagHeader = $objError.Where( {$_.DiagnosticHeader -match "UserType=`"Caller`""} )
                 $CallerIP = $diagHeader.DiagnosticHeader.Split(";") -match "BaseAddress" | Select-Object -First 1
             }
+              
+            # Get Callee Base Address
+            if ($objError.DiagnosticHeader -match "UserType=`"Callee`"") {
+                $diagHeader = $objError.Where( {$_.DiagnosticHeader -match "UserType=`"Callee`""} )
+                $CalleeIP = $diagHeader.DiagnosticHeader.Split(";") -match "BaseAddress" | Select-Object -First 1
+            }
+            
+        } else {
+
+            # This will get P2P Callee Base Address
+            if ($objError.RequestType -eq "INVITE") {
+                $diagHeader = $objError.Where( {$_.RequestType -eq "INVITE"})
+                if ($diagHeader) {
+                    $CalleeIP = $diagHeader.DiagnosticHeader.Split(";") -match "BaseAddress" | Select-Object -First 1
+                }
+            }
+                
+            # This will get P2P Caller Base Address
+            if ($objError.DiagnosticHeader -match "UserType=`"Callee`"" -and $objError.RequestType -eq "BYE") {
+                $diagHeader = $objError.Where( {$_.DiagnosticHeader -match "UserType=`"Callee`"" -and $_.RequestType -eq "BYE"})
+                if ($diagHeader) {
+                    $CallerIP = $diagHeader.DiagnosticHeader.Split(";") -match "BaseAddress" | Select-Object -First 1
+                }
+            }
+
         }
-    
-          
+         
     }
 
-       
     $IpAddr += $CallerIP
     $IpAddr += $CalleeIP
    
