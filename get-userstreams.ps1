@@ -104,7 +104,7 @@ if ($CsvUsers) {
     $OnlineUsers = Import-Csv $CsvUsers
 }
 else {
-    $OnlineUsers = Get-CsOnlineUser -Filter {(Enabled -eq $True) -and (SipAddress -like "sip*")} -WarningAction SilentlyContinue | Select-Object UserPrincipalName, SipAddress | Sort-Object -Property SipAddress 
+    $OnlineUsers = Get-CsOnlineUser -Filter {(Enabled -eq $True) -and (SipAddress -like "sip*") -and (HostingProvider -eq "sipfed.online.lync.com")} -WarningAction SilentlyContinue | Select-Object UserPrincipalName, SipAddress | Sort-Object -Property SipAddress 
 }
 
 # Process users into batches
