@@ -50,6 +50,8 @@ $Global:RMCFileName = "rmc-records.csv"
 $Global:RMCReports = $ReportPath + "\" + $Global:RMCFileName
 $Global:IMFEDFileName = "imfed-records.csv"
 $Global:IMFEDReports = $ReportPath + "\" + $Global:IMFEDFileName
+$Global:UserRegFileName = "lastreg-records.csv"
+$Global:UserRegReports = $Reportpath + "\" + $Global:UserRegFileName
 
 $Global:LogPath = $env:TEMP + "\" + "Logs" + "\" + $Date
 
@@ -82,6 +84,7 @@ New-Item -Path $ReportPath -Name $Global:VideoFileName -ItemType File | Out-Null
 New-Item -Path $ReportPath -Name $Global:AppShareFileName -ItemType File | Out-Null
 New-Item -Path $ReportPath -Name $Global:RMCFileName -ItemType File | Out-Null
 New-Item -Path $ReportPath -Name $Global:IMFEDFileName -ItemType File | Out-Null
+New-Item -Path $ReportPath -Name $Global:UserRegFileName -ItemType File | Out-Null
 
 
 <#

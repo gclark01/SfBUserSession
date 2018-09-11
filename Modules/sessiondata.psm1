@@ -18,6 +18,7 @@ function Get-QoEReport {
     $AppShareRecords = Get-AppShareRecords -sessions $sessions -sipAddress $userHash.SipAddress.Split(":")[1]
     $RMCRecords = Get-RMC -sessions $sessions -sipAddress $userHash.SipAddress.Split(":")[1]
     $IMFEDRecords = Get-IMFederatedDomains -sessions $sessions -sipAddress $userHash.SipAddress.Split(":")[1]
+    $UserRegistration = Get-LastUserRegistration -sessions $sessions -sipAddress $userHash.SipAddress.Split(":")[1]
 
     # Write out reports
     if ($AudioRecords) {
@@ -46,6 +47,10 @@ function Get-QoEReport {
 
     if ($IMFEDRecords) {
         $IMFEDRecords | Export-Csv -Path $Global:IMFEDReports -NoTypeInformation -Append
+    }
+
+    if ($UserRegistration) {
+        $UserRegistration | Export-Csv -Path $Global:UserRegReports -NoTypeInformation -Append
     }
     
 }
@@ -1013,6 +1018,35 @@ function Get-RMC {
 
 }
 
+#This functions grabs the last user registration based on distinct FromUri and FromClientVersion Combination.
+# Function written by Brian Swagger
+function Get-LastUserRegistration {
+    [cmdletbinding()]
+    param (
+        [object]$sessions,
+        [string]$sipAddress
+    )
+
+    $sessions = $sessions | where {$_.MediaTypesDescription -eq "[RegisterEvent]" -and $_.FromClientVersion -ne ""} | Select FromUri,FromClientVersion,StartTime
+
+    #$sessions = $sessions | Where-Object {$_.FromClientVersion -ne ""}
+    $sessions | ForEach-Object {
+
+
+            [array]$Events += [PSCustomObject][ordered]@{
+                #SipAddress                                  = $sipAddress
+                StartTime                                   = $_.StartTime
+                CallerUri                                   = $_.FromUri
+                FromClientVersion                           = $_.FromClientVersion
+               
+            } 
+        #}
+    }
+    
+    $FinalEvents = $Events | Group-Object FromUri,FromClientVersion | Foreach-Object {$_.Group | Sort-Object StartTime | Select-Object -Last 1}
+    return $FinalEvents
+
+}
 function sessionmgmt {
     param(
         [string]$SipAddress,
