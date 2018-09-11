@@ -51,6 +51,18 @@ $Global:RMCReports = $ReportPath + "\" + $Global:RMCFileName
 $Global:IMFEDFileName = "imfed-records.csv"
 $Global:IMFEDReports = $ReportPath + "\" + $Global:IMFEDFileName
 
+$Global:LogPath = $env:TEMP + "\" + "Logs" + "\" + $Date
+
+# Set path to save logs
+if (! ([IO.Directory]::Exists($LogPath))) {
+    try {
+        New-Item -Path $LogPath -ItemType Directory | Out-Null
+    }
+    catch {
+        throw;
+    }
+}
+
 
 # Set path to save reports
 if (! ([IO.Directory]::Exists($ReportPath))) {
@@ -72,7 +84,7 @@ New-Item -Path $ReportPath -Name $Global:RMCFileName -ItemType File | Out-Null
 New-Item -Path $ReportPath -Name $Global:IMFEDFileName -ItemType File | Out-Null
 
 
-
+<#
 # Remove script module if previously loaded
 if (Get-Module -Name PSSessions) {
     Remove-Module -Name PSSessions
@@ -86,14 +98,19 @@ if (Get-Module -Name BatchUsers) {
 if (Get-Module -Name SessionData) {
     Remove-Module -Name SessionData
 }
+#>
 
+# Import Modules
+Get-ChildItem -Path $PSScriptRoot\Modules\*.ps*1 | ForEach-Object {Import-Module $_.pspath -Force }
+
+<#
 # Load script Modules
 # Import-Module LyncOnlineConnector
 Import-Module .\Modules\CredentialManager.psd1
 Import-Module .\Modules\PSSessions.psm1
 Import-Module .\Modules\BatchUsers.psm1
 Import-Module .\Modules\SessionData.psm1
-
+#>
 
 # This starts the inital logon process and loads the remote ps session
 $scriptStart = Get-Date

@@ -84,140 +84,140 @@ function Get-AudioRecords {
         
         #if ($FromUri -eq $sipAddress) {
 
-            [array]$Events += [PSCustomObject][ordered]@{
-                SipAddress                                  = $sipAddress
-                StartTime                                   = $_.StartTime
-                EndTime                                     = $_.EndTime
-                DialogId                                    = $_.DialogId
-                Conference                                  = $_.ConferenceUrl
-                CallerUri                                   = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CalleeUri                                   = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CallerIP                                    = $ipaddr.Matches($Ip[0]).value
-                CalleeIP                                    = $ipaddr.Matches($Ip[1]).value
-                CallerSubnet                                = $subnet.Matches($Ip[0]).value
-                CalleeSubnet                                = $subnet.Matches($Ip[1]).value
-                CallerUserAgent                             = $_.FromClientVersion
-                CalleeUserAgent                             = $_.ToClientVersion
-                MediaType                                   = $_.MediaTypesDescription
-                MediaStartTime                              = $_.QoeReport.Session.MediaStartTime
-                MediaEndTime                                = $_.QoeReport.Session.MediaEndTime
-                MediaDurationInSeconds                      = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds  ### Need to account for NULL
-                AudioTransport                              = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).Transport
-                CallerCaptureDevice                         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDev
-                CallerCaptureDriver                         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDevDriver
-                CallerRenderDevice                          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromRenderDev
-                CallerRenderDriver                          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromRenderDevDriver
-                CalleeCaptureDevice                         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDev
-                CalleeCaptureDriver                         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDriver
-                CalleeRenderDevice                          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToRenderDev
-                CalleeRenderDriver                          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToRenderDevDriver
-                CallerConnectivityIce                       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromConnectivityIce
-                CalleeConnectivityIce                       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToConnectivityIce
-                CallerVPN                                   = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromVPN
-                CalleeVPN                                   = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToVPN
-                CallerNetworkConnectionDetial               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromNetworkConnectionDetail
-                CalleeNetworkConnectionDetail               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToNetworkConnectionDetail
-                CallerReflexiveLocalIPAddr                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromReflexiveLocalIPAddr
-                CalleeReflexiveLocalIPAddr                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToReflexiveLocalIPAddr
-                CallerFromBssid                             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromBssid
-                CalleeToBssid                               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToBssid
-                CallerFromWifiDriverDeviceDesc              = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiDriverDeviceDesc
-                CalleeToWifiDriverDeviceDesc                = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiDriverDeviceDesc
-                CallerFromWifiDriverDeviceVersion           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiDriverDeviceVersion
-                CalleeToWifiDriverDeviceVersion             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiDriverDeviceVersion
-                CallerFromWifiRSSI                          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiRSSI
-                CalleeToWifiRSSI                            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiRSSI
-                CallerFromSSID                              = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromSSID
-                CalleeToSSID                                = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToSSID
-                CallerFromWifiChannel                       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiChannel
-                CalleeToWifiChannel                         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiChannel
-                CallerFromActivePowerProfile                = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromActivePowerProfile
-                CalleeToActivePowerProfile                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToActivePowerProfile
-                CallerFromWifiHandovers                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiHandovers
-                CalleeToWifiHandovers                       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiHandovers
-                CallerFromWifiChannelSwitches               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiChannelSwitches
-                CalleeToWifiChannelSwitches                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiChannelSwitches
-                CallerFromWifiChannelReassociations         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiChannelReassociations
-                CalleeToWifiChannelReassociations           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiChannelReassociations
-                CallerFromWifiRadioFrequency                = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiRadioFrequency
-                CalleeToWifiRadioFrequency                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiRadioFrequency
-                CallerFromWifiSignalStrength                = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiSignalStrength
-                CalleeToWifiSignalStrength                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiSignalStrength
-                CallerJitter                                = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrival -strDirection 'FROM-to-TO'
-                CallerJitterMax                             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrivalMax -strDirection 'FROM-to-TO'
-                CallerPacketLossRate                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRate -strDirection 'FROM-to-TO'
-                CallerPacketLossRateMax                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRateMax -strDirection 'FROM-to-TO'
-                CallerRoundTrip                             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTrip -strDirection 'FROM-to-TO'
-                CallerRoundTripMax                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTripMax -strDirection 'FROM-to-TO'
-                CallerRatioConcealedSamplesAvg              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RatioConcealedSamplesAvg -strDirection 'FROM-to-TO'
-                CallerDegradationAvg                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam DegradationAvg -strDirection 'FROM-to-TO'
-                CallerDegradationMax                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam DegradationMax -strDirection 'FROM-to-TO'
-                CallerConcealedRatioMax                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam ConcealedRatioMax -strDirection 'FROM-to-TO'
-                CallerAvgNetworkMOS                         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam OverallAvgNetworkMOS -strDirection 'FROM-to-TO'
-                CallerSendListenMOS                         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam SendListenMOS -strDirection 'FROM-to-TO'
-                CallerBandwidthEst                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam BandwidthEst -strDirection 'FROM-to-TO'
-                CallerAudioFECUsed                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam AudioFECUsed -strDirection 'FROM-to-TO'
-                CallerPayloadDescription                    = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PayloadDescription -strDirection 'FROM-to-TO'
-                CallerStreamDirection                       = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam StreamDirection -strDirection 'FROM-to-TO'
-                CalleeJitter                                = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrival -strDirection 'TO-to-FROM'
-                CalleeJitterMax                             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrivalMax -strDirection 'TO-to-FROM'
-                CalleePacketLossRate                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRate -strDirection 'TO-to-FROM'
-                CalleePacketLossRateMax                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRateMax -strDirection 'TO-to-FROM'
-                CalleeRoundTrip                             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTrip -strDirection 'TO-to-FROM'
-                CalleeRoundTripMax                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTripMax -strDirection 'TO-to-FROM'
-                CalleeRatioConcealedSamplesAvg              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RatioConcealedSamplesAvg -strDirection 'TO-to-FROM'
-                CalleeDegradationAvg                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam DegradationAvg -strDirection 'TO-to-FROM'
-                CalleeDegradationMax                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam DegradationMax -strDirection 'TO-to-FROM'
-                CalleeConcealedRatioMax                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam ConcealedRatioMax -strDirection 'TO-to-FROM'
-                CalleeAvgNetworkMOS                         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam OverallAvgNetworkMOS -strDirection 'TO-to-FROM'
-                CalleeSendListenMOS                         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam SendListenMOS -strDirection 'TO-to-FROM'
-                CalleeBandwidthEst                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam BandwidthEst -strDirection 'TO-to-FROM'
-                CalleeAudioFECUsed                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam AudioFECUsed -strDirection 'TO-to-FROM'
-                CalleePayloadDescription                    = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PayloadDescription -strDirection 'TO-to-FROM'
-                CalleeStreamDirection                       = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam StreamDirection -strDirection 'TO-to-FROM'
-                CallerNetworkSendQualityEventRatio          = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkSendQualityEventRatio
-                CallerNetworkReceiveQualityEventRatio       = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkReceiveQualityEventRatio
-                CallerNetworkDelayEventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkDelayEventRatio
-                CallerNetworkBandwidthLowEventRatio         = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkBandwidthLowEventRatio
-                CallerCPUInsufficientEventRatio             = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).CPUInsufficientEventRatio
-                CallerDeviceRenderNotFunctioningEventRatio  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceRenderNotFunctioningEventRatio
-                CallerDeviceCaptureNotFunctioningEventRatio = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceCaptureNotFunctioningEventRatio
-                CallerDeviceGlitchesEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceGlitchesEventRatio
-                CallerDeviceLowSNREventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceLowSNREventRatio
-                CallerDeviceLowSpeechLevelEventRatio        = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceLowSpeechLevelEventRatio
-                CallerDeviceClippingEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceClippingEventRatio
-                CallerDeviceEchoEventRatio                  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceEchoEventRatio
-                CallerDeviceNearEndToEchoRatioEventRatio    = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceNearEndToEchoRatioEventRatio
-                CallerDeviiceRenderZeroVolumeEventRatio     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviiceRenderZeroVolumeEventRatio
-                CallerDeviceRenderMuteEventRatio            = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceRenderMuteEventRatio
-                CallerDeviceMultipleEndpointsEventCount     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceMultipleEndpointsEventCount
-                CallerDeviceHowlingEventCount               = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceHowlingEventCount
-                CalleeNetworkSendQualityEventRatio          = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkSendQualityEventRatio
-                CalleeNetworkReceiveQualityEventRatio       = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkReceiveQualityEventRatio
-                CalleeNetworkDelayEventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkDelayEventRatio
-                CalleeNetworkBandwidthLowEventRatio         = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkBandwidthLowEventRatio
-                CalleeCPUInsufficientEventRatio             = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).CPUInsufficientEventRatio
-                CalleeDeviceRenderNotFunctioningEventRatio  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceRenderNotFunctioningEventRatio
-                CalleeDeviceCaptureNotFunctioningEventRatio = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceCaptureNotFunctioningEventRatio
-                CalleeDeviceGlitchesEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceGlitchesEventRatio
-                CalleeDeviceLowSNREventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceLowSNREventRatio
-                CalleeDeviceLowSpeechLevelEventRatio        = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceLowSpeechLevelEventRatio
-                CalleeDeviceClippingEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceClippingEventRatio
-                CalleeDeviceEchoEventRatio                  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceEchoEventRatio
-                CalleeDeviceNearEndToEchoRatioEventRatio    = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceNearEndToEchoRatioEventRatio
-                CalleeDeviiceRenderZeroVolumeEventRatio     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviiceRenderZeroVolumeEventRatio
-                CalleeDeviceRenderMuteEventRatio            = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceRenderMuteEventRatio
-                CalleeDeviceMultipleEndpointsEventCount     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceMultipleEndpointsEventCount
-                CalleeDeviceHowlingEventCount               = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceHowlingEventCount
-                CallerSendSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).SendSignalLevel
-                CallerRecvSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).RecvSignalLevel
-                CallerAudioSpeakerGlitchRate                = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).AudioSpeakerGlitchRate
-                CallerAudioMicGlitchRate                    = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).AudioMicGlitchRate
-                CalleeSendSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).SendSignalLevel
-                CalleeRecvSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).RecvSignalLevel
-                CalleeAudioSpeakerGlitchRate                = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).AudioSpeakerGlitchRate
-                CalleeAudioMicGlitchRate                    = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).AudioMicGlitchRate
-            } 
+        [array]$Events += [PSCustomObject][ordered]@{
+            SipAddress                                  = $sipAddress
+            StartTime                                   = $_.StartTime
+            EndTime                                     = $_.EndTime
+            DialogId                                    = $_.DialogId
+            Conference                                  = $_.ConferenceUrl
+            CallerUri                                   = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CalleeUri                                   = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CallerIP                                    = $ipaddr.Matches($Ip[0]).value
+            CalleeIP                                    = $ipaddr.Matches($Ip[1]).value
+            CallerSubnet                                = $subnet.Matches($Ip[0]).value
+            CalleeSubnet                                = $subnet.Matches($Ip[1]).value
+            CallerUserAgent                             = $_.FromClientVersion
+            CalleeUserAgent                             = $_.ToClientVersion
+            MediaType                                   = $_.MediaTypesDescription
+            MediaStartTime                              = $_.QoeReport.Session.MediaStartTime
+            MediaEndTime                                = $_.QoeReport.Session.MediaEndTime
+            MediaDurationInSeconds                      = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds  ### Need to account for NULL
+            AudioTransport                              = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).Transport
+            CallerCaptureDevice                         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDev
+            CallerCaptureDriver                         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDevDriver
+            CallerRenderDevice                          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromRenderDev
+            CallerRenderDriver                          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromRenderDevDriver
+            CalleeCaptureDevice                         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDev
+            CalleeCaptureDriver                         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDriver
+            CalleeRenderDevice                          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToRenderDev
+            CalleeRenderDriver                          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToRenderDevDriver
+            CallerConnectivityIce                       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromConnectivityIce
+            CalleeConnectivityIce                       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToConnectivityIce
+            CallerVPN                                   = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromVPN
+            CalleeVPN                                   = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToVPN
+            CallerNetworkConnectionDetial               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromNetworkConnectionDetail
+            CalleeNetworkConnectionDetail               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToNetworkConnectionDetail
+            CallerReflexiveLocalIPAddr                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromReflexiveLocalIPAddr
+            CalleeReflexiveLocalIPAddr                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToReflexiveLocalIPAddr
+            CallerFromBssid                             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromBssid
+            CalleeToBssid                               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToBssid
+            CallerFromWifiDriverDeviceDesc              = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiDriverDeviceDesc
+            CalleeToWifiDriverDeviceDesc                = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiDriverDeviceDesc
+            CallerFromWifiDriverDeviceVersion           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiDriverDeviceVersion
+            CalleeToWifiDriverDeviceVersion             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiDriverDeviceVersion
+            CallerFromWifiRSSI                          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiRSSI
+            CalleeToWifiRSSI                            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiRSSI
+            CallerFromSSID                              = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromSSID
+            CalleeToSSID                                = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToSSID
+            CallerFromWifiChannel                       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiChannel
+            CalleeToWifiChannel                         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiChannel
+            CallerFromActivePowerProfile                = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromActivePowerProfile
+            CalleeToActivePowerProfile                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToActivePowerProfile
+            CallerFromWifiHandovers                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiHandovers
+            CalleeToWifiHandovers                       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiHandovers
+            CallerFromWifiChannelSwitches               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiChannelSwitches
+            CalleeToWifiChannelSwitches                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiChannelSwitches
+            CallerFromWifiChannelReassociations         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiChannelReassociations
+            CalleeToWifiChannelReassociations           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiChannelReassociations
+            CallerFromWifiRadioFrequency                = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiRadioFrequency
+            CalleeToWifiRadioFrequency                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiRadioFrequency
+            CallerFromWifiSignalStrength                = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromWifiSignalStrength
+            CalleeToWifiSignalStrength                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToWifiSignalStrength
+            CallerJitter                                = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrival -strDirection 'FROM-to-TO'
+            CallerJitterMax                             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrivalMax -strDirection 'FROM-to-TO'
+            CallerPacketLossRate                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRate -strDirection 'FROM-to-TO'
+            CallerPacketLossRateMax                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRateMax -strDirection 'FROM-to-TO'
+            CallerRoundTrip                             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTrip -strDirection 'FROM-to-TO'
+            CallerRoundTripMax                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTripMax -strDirection 'FROM-to-TO'
+            CallerRatioConcealedSamplesAvg              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RatioConcealedSamplesAvg -strDirection 'FROM-to-TO'
+            CallerDegradationAvg                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam DegradationAvg -strDirection 'FROM-to-TO'
+            CallerDegradationMax                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam DegradationMax -strDirection 'FROM-to-TO'
+            CallerConcealedRatioMax                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam ConcealedRatioMax -strDirection 'FROM-to-TO'
+            CallerAvgNetworkMOS                         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam OverallAvgNetworkMOS -strDirection 'FROM-to-TO'
+            CallerSendListenMOS                         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam SendListenMOS -strDirection 'FROM-to-TO'
+            CallerBandwidthEst                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam BandwidthEst -strDirection 'FROM-to-TO'
+            CallerAudioFECUsed                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam AudioFECUsed -strDirection 'FROM-to-TO'
+            CallerPayloadDescription                    = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PayloadDescription -strDirection 'FROM-to-TO'
+            CallerStreamDirection                       = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam StreamDirection -strDirection 'FROM-to-TO'
+            CalleeJitter                                = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrival -strDirection 'TO-to-FROM'
+            CalleeJitterMax                             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrivalMax -strDirection 'TO-to-FROM'
+            CalleePacketLossRate                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRate -strDirection 'TO-to-FROM'
+            CalleePacketLossRateMax                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRateMax -strDirection 'TO-to-FROM'
+            CalleeRoundTrip                             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTrip -strDirection 'TO-to-FROM'
+            CalleeRoundTripMax                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTripMax -strDirection 'TO-to-FROM'
+            CalleeRatioConcealedSamplesAvg              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RatioConcealedSamplesAvg -strDirection 'TO-to-FROM'
+            CalleeDegradationAvg                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam DegradationAvg -strDirection 'TO-to-FROM'
+            CalleeDegradationMax                        = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam DegradationMax -strDirection 'TO-to-FROM'
+            CalleeConcealedRatioMax                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam ConcealedRatioMax -strDirection 'TO-to-FROM'
+            CalleeAvgNetworkMOS                         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam OverallAvgNetworkMOS -strDirection 'TO-to-FROM'
+            CalleeSendListenMOS                         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam SendListenMOS -strDirection 'TO-to-FROM'
+            CalleeBandwidthEst                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam BandwidthEst -strDirection 'TO-to-FROM'
+            CalleeAudioFECUsed                          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam AudioFECUsed -strDirection 'TO-to-FROM'
+            CalleePayloadDescription                    = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PayloadDescription -strDirection 'TO-to-FROM'
+            CalleeStreamDirection                       = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam StreamDirection -strDirection 'TO-to-FROM'
+            CallerNetworkSendQualityEventRatio          = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkSendQualityEventRatio
+            CallerNetworkReceiveQualityEventRatio       = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkReceiveQualityEventRatio
+            CallerNetworkDelayEventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkDelayEventRatio
+            CallerNetworkBandwidthLowEventRatio         = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkBandwidthLowEventRatio
+            CallerCPUInsufficientEventRatio             = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).CPUInsufficientEventRatio
+            CallerDeviceRenderNotFunctioningEventRatio  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceRenderNotFunctioningEventRatio
+            CallerDeviceCaptureNotFunctioningEventRatio = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceCaptureNotFunctioningEventRatio
+            CallerDeviceGlitchesEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceGlitchesEventRatio
+            CallerDeviceLowSNREventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceLowSNREventRatio
+            CallerDeviceLowSpeechLevelEventRatio        = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceLowSpeechLevelEventRatio
+            CallerDeviceClippingEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceClippingEventRatio
+            CallerDeviceEchoEventRatio                  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceEchoEventRatio
+            CallerDeviceNearEndToEchoRatioEventRatio    = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceNearEndToEchoRatioEventRatio
+            CallerDeviiceRenderZeroVolumeEventRatio     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviiceRenderZeroVolumeEventRatio
+            CallerDeviceRenderMuteEventRatio            = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceRenderMuteEventRatio
+            CallerDeviceMultipleEndpointsEventCount     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceMultipleEndpointsEventCount
+            CallerDeviceHowlingEventCount               = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceHowlingEventCount
+            CalleeNetworkSendQualityEventRatio          = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkSendQualityEventRatio
+            CalleeNetworkReceiveQualityEventRatio       = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkReceiveQualityEventRatio
+            CalleeNetworkDelayEventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkDelayEventRatio
+            CalleeNetworkBandwidthLowEventRatio         = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkBandwidthLowEventRatio
+            CalleeCPUInsufficientEventRatio             = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).CPUInsufficientEventRatio
+            CalleeDeviceRenderNotFunctioningEventRatio  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceRenderNotFunctioningEventRatio
+            CalleeDeviceCaptureNotFunctioningEventRatio = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceCaptureNotFunctioningEventRatio
+            CalleeDeviceGlitchesEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceGlitchesEventRatio
+            CalleeDeviceLowSNREventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceLowSNREventRatio
+            CalleeDeviceLowSpeechLevelEventRatio        = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceLowSpeechLevelEventRatio
+            CalleeDeviceClippingEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceClippingEventRatio
+            CalleeDeviceEchoEventRatio                  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceEchoEventRatio
+            CalleeDeviceNearEndToEchoRatioEventRatio    = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceNearEndToEchoRatioEventRatio
+            CalleeDeviiceRenderZeroVolumeEventRatio     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviiceRenderZeroVolumeEventRatio
+            CalleeDeviceRenderMuteEventRatio            = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceRenderMuteEventRatio
+            CalleeDeviceMultipleEndpointsEventCount     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceMultipleEndpointsEventCount
+            CalleeDeviceHowlingEventCount               = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceHowlingEventCount
+            CallerSendSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).SendSignalLevel
+            CallerRecvSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).RecvSignalLevel
+            CallerAudioSpeakerGlitchRate                = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).AudioSpeakerGlitchRate
+            CallerAudioMicGlitchRate                    = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $True}).AudioMicGlitchRate
+            CalleeSendSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).SendSignalLevel
+            CalleeRecvSignalLevel                       = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).RecvSignalLevel
+            CalleeAudioSpeakerGlitchRate                = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).AudioSpeakerGlitchRate
+            CalleeAudioMicGlitchRate                    = $_.QoeReport.AudioSignals.where( {$_.SubmittedByFromUser -eq $False}).AudioMicGlitchRate
+        } 
         #}
     }
     return $Events
@@ -258,102 +258,102 @@ function Get-VideoRecords {
         
         #if ($FromUri -eq $sipAddress) {
 
-            [array]$Events += [PSCustomObject][ordered]@{
-                SipAddress                     = $sipAddress
-                StartTime                      = $_.StartTime
-                EndTime                        = $_.EndTime
-                DialogId                       = $_.DialogId
-                Conference                     = $_.ConferenceUrl
-                CallerUri                      = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CalleeUri                      = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CallerIP                       = $ipaddr.Matches($Ip[0]).value
-                CalleeIP                       = $ipaddr.Matches($Ip[1]).value
-                CallerSubnet                   = $subnet.Matches($Ip[0]).value
-                CalleeSubnet                   = $subnet.Matches($Ip[1]).value
-                CallerUserAgent                = $_.FromClientVersion
-                CalleeUserAgent                = $_.ToClientVersion
-                MediaType                      = $_.MediaTypesDescription
-                MediaStartTime                 = $_.QoeReport.Session.MediaStartTime
-                MediaEndTime                   = $_.QoeReport.Session.MediaEndTime
-                MediaDurationInSeconds         = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
-                VideoTransport                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).Transport
-                CallerCaptureDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromCaptureDev
-                CallerCaptureDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromCaptureDevDriver
-                CallerRenderDevice             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromRenderDev
-                CallerRenderDriver             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromRenderDevDriver
-                CalleeCaptureDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToCaptureDev
-                CalleeCaptureDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToCaptureDriver
-                CalleeRenderDevice             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToRenderDev
-                CalleeRenderDriver             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToRenderDevDriver
-                CallerConnectivityIce          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromConnectivityIce
-                CalleeConnectivityIce          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToConnectivityIce
-                CallerVPN                      = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromVPN
-                CalleeVPN                      = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToVPN
-                CallerNetworkConnectionDetial  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromNetworkConnectionDetail
-                CalleeNetworkConnectionDetail  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToNetworkConnectionDetail
-                CallerReflexiveLocalIPAddr     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromReflexiveLocalIPAddr
-                CalleeReflexiveLocalIPAddr     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToReflexiveLocalIPAddr
-                CallerJitter                   = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam JitterInterArrival -strDirection 'FROM-to-TO'
-                CallerJitterMax                = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam JitterInterArrivalMax -strDirection 'FROM-to-TO'
-                CallerPacketLossRate           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PacketLossRate -strDirection 'FROM-to-TO'
-                CallerPacketLossRateMax        = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PacketLossRateMax -strDirection 'FROM-to-TO'
-                CallerRoundTrip                = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RoundTrip -strDirection 'FROM-to-TO'
-                CallerRoundTripMax             = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RoundTripMax -strDirection 'FROM-to-TO'
-                CallerBandwidthEst             = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam BandwidthEst -strDirection 'FROM-to-TO'
-                CallerPayloadDescription       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PayloadDescription -strDirection 'FROM-to-TO'
-                CallerSendCodecTypes           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendCodecTypes -strDirection 'FROM-to-TO'
-                CallerSendResolutionWidth      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendResolutionWidth -strDirection 'FROM-to-TO'
-                CallerSendResolutionHeight     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendResolutionHeight -strDirection 'FROM-to-TO'
-                CallerSendFrameRateAverage     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendFrameRateAverage -strDirection 'FROM-to-TO'
-                CallerSendBitRateMaximum       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendBitRateMaximum -strDirection 'FROM-to-TO'
-                CallerSendBitRateAverage       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendBitRateAverage -strDirection 'FROM-to-TO'    
-                CallerSendVideoStreamsMax      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendVideoStreamsMax -strDirection 'FROM-to-TO'
-                CallerRecvCodecTypes           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvCodecTypes -strDirection 'FROM-to-TO'
-                CallerRecvResolutionWidth      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvResolutionWidth -strDirection 'FROM-to-TO'
-                CallerRecvResolutionHeight     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvResolutionHeight -strDirection 'FROM-to-TO'
-                CallerRecvFrameRateAverage     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvFrameRateAverage -strDirection 'FROM-to-TO'
-                CallerRecvBitRateMaximum       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvBitRateMaximum -strDirection 'FROM-to-TO'
-                CallerRecvBitRateAverage       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvBitRateAverage -strDirection 'FROM-to-TO'
-                CallerCIFQualityRatio          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam CIFQualityRatio -strDirection 'FROM-to-TO'
-                CallerVGAQualityRatio          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam VGAQualityRatio -strDirection 'FROM-to-TO'
-                CallerHD720QualityRatio        = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam HD720QualityRatio -strDirection 'FROM-to-TO'
-                CallerVideoPostFECPLR          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam VideoPostFECPLR -strDirection 'FROM-to-TO'
-                CallerLowFrameRateCallPercent  = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowFrameRateCallPercent -strDirection 'FROM-to-TO'
-                CallerLowBitRateCallPercent    = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowBitRateCallPercent -strDirection 'FROM-to-TO'
-                CallerLowResolutionCallPercent = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowResolutionCallPercent -strDirection 'FROM-to-TO'
-                CallerDynamicCapabilityPercent = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam DynamicCapabilityPercent -strDirection 'FROM-to-TO'
-                CallerStreamDirection          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam StreamDirection -strDirection 'FROM-to-TO'
-                CalleeJitter                   = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam JitterInterArrival -strDirection 'TO-to-FROM'
-                CalleeJitterMax                = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam JitterInterArrivalMax -strDirection 'TO-to-FROM'
-                CalleePacketLossRate           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PacketLossRate -strDirection 'TO-to-FROM'
-                CalleePacketLossRateMax        = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PacketLossRateMax -strDirection 'TO-to-FROM'
-                CalleeRoundTrip                = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RoundTrip -strDirection 'TO-to-FROM'
-                CalleeRoundTripMax             = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RoundTripMax -strDirection 'TO-to-FROM'
-                CalleeBandwidthEst             = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam BandwidthEst -strDirection 'TO-to-FROM'
-                CalleePayloadDescription       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PayloadDescription -strDirection 'TO-to-FROM'
-                CalleeSendCodecTypes           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendCodecTypes -strDirection 'TO-to-FROM'
-                CalleeSendResolutionWidth      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendResolutionWidth -strDirection 'TO-to-FROM'
-                CalleeSendResolutionHeight     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendResolutionHeight -strDirection 'TO-to-FROM'
-                CalleeSendFrameRateAverage     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendFrameRateAverage -strDirection 'TO-to-FROM'
-                CalleeSendBitRateMaximum       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendBitRateMaximum -strDirection 'TO-to-FROM'
-                CalleeSendBitRateAverage       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendBitRateAverage -strDirection 'TO-to-FROM'    
-                CalleeSendVideoStreamsMax      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendVideoStreamsMax -strDirection 'TO-to-FROM'
-                CalleeRecvCodecTypes           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvCodecTypes -strDirection 'TO-to-FROM'
-                CalleeRecvResolutionWidth      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvResolutionWidth -strDirection 'TO-to-FROM'
-                CalleeRecvResolutionHeight     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvResolutionHeight -strDirection 'TO-to-FROM'
-                CalleeRecvFrameRateAverage     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvFrameRateAverage -strDirection 'TO-to-FROM'
-                CalleeRecvBitRateMaximum       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvBitRateMaximum -strDirection 'TO-to-FROM'
-                CalleeRecvBitRateAverage       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvBitRateAverage -strDirection 'TO-to-FROM'
-                CalleeCIFQualityRatio          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam CIFQualityRatio -strDirection 'TO-to-FROM'
-                CalleeVGAQualityRatio          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam VGAQualityRatio -strDirection 'TO-to-FROM'
-                CalleeHD720QualityRatio        = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam HD720QualityRatio -strDirection 'TO-to-FROM'
-                CalleeVideoPostFECPLR          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam VideoPostFECPLR -strDirection 'TO-to-FROM'
-                CalleeLowFrameRateCallPercent  = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowFrameRateCallPercent -strDirection 'TO-to-FROM'
-                CalleeLowBitRateCallPercent    = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowBitRateCallPercent -strDirection 'TO-to-FROM'
-                CalleeLowResolutionCallPercent = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowResolutionCallPercent -strDirection 'TO-to-FROM'
-                CalleeDynamicCapabilityPercent = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam DynamicCapabilityPercent -strDirection 'TO-to-FROM'
-                CalleeStreamDirection          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam StreamDirection -strDirection 'TO-to-FROM'
-            }
+        [array]$Events += [PSCustomObject][ordered]@{
+            SipAddress                     = $sipAddress
+            StartTime                      = $_.StartTime
+            EndTime                        = $_.EndTime
+            DialogId                       = $_.DialogId
+            Conference                     = $_.ConferenceUrl
+            CallerUri                      = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CalleeUri                      = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CallerIP                       = $ipaddr.Matches($Ip[0]).value
+            CalleeIP                       = $ipaddr.Matches($Ip[1]).value
+            CallerSubnet                   = $subnet.Matches($Ip[0]).value
+            CalleeSubnet                   = $subnet.Matches($Ip[1]).value
+            CallerUserAgent                = $_.FromClientVersion
+            CalleeUserAgent                = $_.ToClientVersion
+            MediaType                      = $_.MediaTypesDescription
+            MediaStartTime                 = $_.QoeReport.Session.MediaStartTime
+            MediaEndTime                   = $_.QoeReport.Session.MediaEndTime
+            MediaDurationInSeconds         = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
+            VideoTransport                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).Transport
+            CallerCaptureDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromCaptureDev
+            CallerCaptureDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromCaptureDevDriver
+            CallerRenderDevice             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromRenderDev
+            CallerRenderDriver             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromRenderDevDriver
+            CalleeCaptureDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToCaptureDev
+            CalleeCaptureDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToCaptureDriver
+            CalleeRenderDevice             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToRenderDev
+            CalleeRenderDriver             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToRenderDevDriver
+            CallerConnectivityIce          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromConnectivityIce
+            CalleeConnectivityIce          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToConnectivityIce
+            CallerVPN                      = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromVPN
+            CalleeVPN                      = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToVPN
+            CallerNetworkConnectionDetial  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromNetworkConnectionDetail
+            CalleeNetworkConnectionDetail  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToNetworkConnectionDetail
+            CallerReflexiveLocalIPAddr     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromReflexiveLocalIPAddr
+            CalleeReflexiveLocalIPAddr     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToReflexiveLocalIPAddr
+            CallerJitter                   = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam JitterInterArrival -strDirection 'FROM-to-TO'
+            CallerJitterMax                = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam JitterInterArrivalMax -strDirection 'FROM-to-TO'
+            CallerPacketLossRate           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PacketLossRate -strDirection 'FROM-to-TO'
+            CallerPacketLossRateMax        = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PacketLossRateMax -strDirection 'FROM-to-TO'
+            CallerRoundTrip                = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RoundTrip -strDirection 'FROM-to-TO'
+            CallerRoundTripMax             = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RoundTripMax -strDirection 'FROM-to-TO'
+            CallerBandwidthEst             = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam BandwidthEst -strDirection 'FROM-to-TO'
+            CallerPayloadDescription       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PayloadDescription -strDirection 'FROM-to-TO'
+            CallerSendCodecTypes           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendCodecTypes -strDirection 'FROM-to-TO'
+            CallerSendResolutionWidth      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendResolutionWidth -strDirection 'FROM-to-TO'
+            CallerSendResolutionHeight     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendResolutionHeight -strDirection 'FROM-to-TO'
+            CallerSendFrameRateAverage     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendFrameRateAverage -strDirection 'FROM-to-TO'
+            CallerSendBitRateMaximum       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendBitRateMaximum -strDirection 'FROM-to-TO'
+            CallerSendBitRateAverage       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendBitRateAverage -strDirection 'FROM-to-TO'    
+            CallerSendVideoStreamsMax      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendVideoStreamsMax -strDirection 'FROM-to-TO'
+            CallerRecvCodecTypes           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvCodecTypes -strDirection 'FROM-to-TO'
+            CallerRecvResolutionWidth      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvResolutionWidth -strDirection 'FROM-to-TO'
+            CallerRecvResolutionHeight     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvResolutionHeight -strDirection 'FROM-to-TO'
+            CallerRecvFrameRateAverage     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvFrameRateAverage -strDirection 'FROM-to-TO'
+            CallerRecvBitRateMaximum       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvBitRateMaximum -strDirection 'FROM-to-TO'
+            CallerRecvBitRateAverage       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvBitRateAverage -strDirection 'FROM-to-TO'
+            CallerCIFQualityRatio          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam CIFQualityRatio -strDirection 'FROM-to-TO'
+            CallerVGAQualityRatio          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam VGAQualityRatio -strDirection 'FROM-to-TO'
+            CallerHD720QualityRatio        = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam HD720QualityRatio -strDirection 'FROM-to-TO'
+            CallerVideoPostFECPLR          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam VideoPostFECPLR -strDirection 'FROM-to-TO'
+            CallerLowFrameRateCallPercent  = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowFrameRateCallPercent -strDirection 'FROM-to-TO'
+            CallerLowBitRateCallPercent    = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowBitRateCallPercent -strDirection 'FROM-to-TO'
+            CallerLowResolutionCallPercent = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowResolutionCallPercent -strDirection 'FROM-to-TO'
+            CallerDynamicCapabilityPercent = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam DynamicCapabilityPercent -strDirection 'FROM-to-TO'
+            CallerStreamDirection          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam StreamDirection -strDirection 'FROM-to-TO'
+            CalleeJitter                   = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam JitterInterArrival -strDirection 'TO-to-FROM'
+            CalleeJitterMax                = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam JitterInterArrivalMax -strDirection 'TO-to-FROM'
+            CalleePacketLossRate           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PacketLossRate -strDirection 'TO-to-FROM'
+            CalleePacketLossRateMax        = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PacketLossRateMax -strDirection 'TO-to-FROM'
+            CalleeRoundTrip                = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RoundTrip -strDirection 'TO-to-FROM'
+            CalleeRoundTripMax             = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RoundTripMax -strDirection 'TO-to-FROM'
+            CalleeBandwidthEst             = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam BandwidthEst -strDirection 'TO-to-FROM'
+            CalleePayloadDescription       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam PayloadDescription -strDirection 'TO-to-FROM'
+            CalleeSendCodecTypes           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendCodecTypes -strDirection 'TO-to-FROM'
+            CalleeSendResolutionWidth      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendResolutionWidth -strDirection 'TO-to-FROM'
+            CalleeSendResolutionHeight     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendResolutionHeight -strDirection 'TO-to-FROM'
+            CalleeSendFrameRateAverage     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendFrameRateAverage -strDirection 'TO-to-FROM'
+            CalleeSendBitRateMaximum       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendBitRateMaximum -strDirection 'TO-to-FROM'
+            CalleeSendBitRateAverage       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendBitRateAverage -strDirection 'TO-to-FROM'    
+            CalleeSendVideoStreamsMax      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam SendVideoStreamsMax -strDirection 'TO-to-FROM'
+            CalleeRecvCodecTypes           = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvCodecTypes -strDirection 'TO-to-FROM'
+            CalleeRecvResolutionWidth      = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvResolutionWidth -strDirection 'TO-to-FROM'
+            CalleeRecvResolutionHeight     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvResolutionHeight -strDirection 'TO-to-FROM'
+            CalleeRecvFrameRateAverage     = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvFrameRateAverage -strDirection 'TO-to-FROM'
+            CalleeRecvBitRateMaximum       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvBitRateMaximum -strDirection 'TO-to-FROM'
+            CalleeRecvBitRateAverage       = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam RecvBitRateAverage -strDirection 'TO-to-FROM'
+            CalleeCIFQualityRatio          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam CIFQualityRatio -strDirection 'TO-to-FROM'
+            CalleeVGAQualityRatio          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam VGAQualityRatio -strDirection 'TO-to-FROM'
+            CalleeHD720QualityRatio        = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam HD720QualityRatio -strDirection 'TO-to-FROM'
+            CalleeVideoPostFECPLR          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam VideoPostFECPLR -strDirection 'TO-to-FROM'
+            CalleeLowFrameRateCallPercent  = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowFrameRateCallPercent -strDirection 'TO-to-FROM'
+            CalleeLowBitRateCallPercent    = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowBitRateCallPercent -strDirection 'TO-to-FROM'
+            CalleeLowResolutionCallPercent = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam LowResolutionCallPercent -strDirection 'TO-to-FROM'
+            CalleeDynamicCapabilityPercent = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam DynamicCapabilityPercent -strDirection 'TO-to-FROM'
+            CalleeStreamDirection          = get-StreamParam -objParam $_.QoEReport.VideoStreams -strParam StreamDirection -strDirection 'TO-to-FROM'
+        }
         #}
     }
     return $Events
@@ -382,75 +382,75 @@ function Get-AppShareRecords {
         
         #if ($FromUri -eq $sipAddress) {
 
-            [array]$Events += [PSCustomObject][ordered]@{
-                SipAddress                          = $sipAddress
-                StartTime                           = $_.StartTime
-                EndTime                             = $_.EndTime
-                DialogId                            = $_.DialogId
-                Conference                          = $_.ConferenceUrl
-                CallerUri                           = $_.FromUri
-                CalleeUri                           = $_.ToUri
-                CallerIP                            = $ipaddr.Matches($Ip[0]).value
-                CalleeIP                            = $ipaddr.Matches($Ip[1]).value
-                CallerSubnet                        = $subnet.Matches($Ip[0]).value
-                CalleeSubnet                        = $subnet.Matches($Ip[1]).value
-                CallerUserAgent                     = $_.FromClientVersion
-                CalleeUserAgent                     = $_.ToClientVersion
-                MediaType                           = $_.MediaTypesDescription
-                MediaStartTime                      = $_.QoeReport.Session.MediaStartTime
-                MediaEndTime                        = $_.QoeReport.Session.MediaEndTime
-                MediaDurationInSeconds              = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
-                AppShareTransport                   = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).Transport
-                CallerCaptureDevice                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromCaptureDev
-                CallerCaptureDriver                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromCaptureDevDriver
-                CallerRenderDevice                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromRenderDev
-                CallerRenderDriver                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromRenderDevDriver
-                CalleeCaptureDevice                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToCaptureDev
-                CalleeCaptureDriver                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToCaptureDriver
-                CalleeRenderDevice                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToRenderDev
-                CalleeRenderDriver                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToRenderDevDriver
-                CallerConnectivityIce               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromConnectivityIce
-                CalleeConnectivityIce               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToConnectivityIce
-                CallerVPN                           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromVPN
-                CalleeVPN                           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToVPN
-                CallerNetworkConnectionDetial       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromNetworkConnectionDetail
-                CalleeNetworkConnectionDetail       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToNetworkConnectionDetail
-                CallerReflexiveLocalIPAddr          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromReflexiveLocalIPAddr
-                CalleeReflexiveLocalIPAddr          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToReflexiveLocalIPAddr
-                CallerJitter                        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam JitterInterArrival -strDirection 'FROM-to-TO'
-                CallerJitterMax                     = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam JitterInterArrivalMax -strDirection 'FROM-to-TO'
-                CallerRoundTrip                     = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RoundTrip -strDirection 'FROM-to-TO'
-                CallerRoundTripMax                  = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RoundTripMax -strDirection 'FROM-to-TO'
-                CallerPacketUtilization             = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam PacketUtilization -strDirection 'FROM-to-TO'
-                CallerAverageRectangleHeight        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam AverageRectangleHeight -strDirection 'FROM-to-TO'
-                CallerAverageRectangleWidth         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam AverageRectangleWidth -strDirection 'FROM-to-TO'
-                CallerRDPTileProcessingLatencyTotal = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RDPTileProcessingLatencyTotal -strDirection 'FROM-to-TO'
-                CallerCaptureTileRateTotal          = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam CapturetileRateTotal -strDirection 'FROM-to-TO'
-                CallerSpoiledTilePercentTotal       = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam SpoiledTilePercentTotal -strDirection 'FROM-to-TO'
-                CallerScrapingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam ScrapingFrameRateTotal -strDirection 'FROM-to-TO'
-                CallerIncomingTileRateTotal         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam IncomingTileRateTotal -strDirection 'FROM-to-TO'
-                CallerIncomingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam IncomingFrameRateTotal -strDirection 'FROM-to-TO'
-                CallerOutgoingTileRateTotal         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam OutgoingTileRateTotal -strDirection 'FROM-to-TO'
-                CallerOutgoingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam OutgoingFrameRateTotal -strDirection 'FROM-to-TO'
-                CallerStreamDirection               = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam StreamDirection -strDirection 'FROM-to-TO'
-                CalleeJitter                        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam JitterInterArrival -strDirection 'TO-to-FROM'
-                CalleeJitterMax                     = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam JitterInterArrivalMax -strDirection 'TO-to-FROM'
-                CalleeRoundTrip                     = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RoundTrip -strDirection 'TO-to-FROM'
-                CalleeRoundTripMax                  = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RoundTripMax -strDirection 'TO-to-FROM'
-                CalleePacketUtilization             = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam PacketUtilization -strDirection 'TO-to-FROM'
-                CalleeAverageRectangleHeight        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam AverageRectangleHeight -strDirection 'TO-to-FROM'
-                CalleeAverageRectangleWidth         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam AverageRectangleWidth -strDirection 'TO-to-FROM'
-                CalleeRDPTileProcessingLatencyTotal = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RDPTileProcessingLatencyTotal -strDirection 'TO-to-FROM'
-                CalleeCaptureTileRateTotal          = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam CapturetileRateTotal -strDirection 'TO-to-FROM'
-                CalleeSpoiledTilePercentTotal       = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam SpoiledTilePercentTotal -strDirection 'TO-to-FROM'
-                CalleeScrapingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam ScrapingFrameRateTotal -strDirection 'TO-to-FROM'
-                CalleeIncomingTileRateTotal         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam IncomingTileRateTotal -strDirection 'TO-to-FROM'
-                CalleeIncomingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam IncomingFrameRateTotal -strDirection 'TO-to-FROM'
-                CalleeOutgoingTileRateTotal         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam OutgoingTileRateTotal -strDirection 'TO-to-FROM'
-                CalleeOutgoingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam OutgoingFrameRateTotal -strDirection 'TO-to-FROM'
-                CalleeStreamDirection               = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam StreamDirection -strDirection 'TO-to-FROM'
+        [array]$Events += [PSCustomObject][ordered]@{
+            SipAddress                          = $sipAddress
+            StartTime                           = $_.StartTime
+            EndTime                             = $_.EndTime
+            DialogId                            = $_.DialogId
+            Conference                          = $_.ConferenceUrl
+            CallerUri                           = $_.FromUri
+            CalleeUri                           = $_.ToUri
+            CallerIP                            = $ipaddr.Matches($Ip[0]).value
+            CalleeIP                            = $ipaddr.Matches($Ip[1]).value
+            CallerSubnet                        = $subnet.Matches($Ip[0]).value
+            CalleeSubnet                        = $subnet.Matches($Ip[1]).value
+            CallerUserAgent                     = $_.FromClientVersion
+            CalleeUserAgent                     = $_.ToClientVersion
+            MediaType                           = $_.MediaTypesDescription
+            MediaStartTime                      = $_.QoeReport.Session.MediaStartTime
+            MediaEndTime                        = $_.QoeReport.Session.MediaEndTime
+            MediaDurationInSeconds              = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
+            AppShareTransport                   = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).Transport
+            CallerCaptureDevice                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromCaptureDev
+            CallerCaptureDriver                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromCaptureDevDriver
+            CallerRenderDevice                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromRenderDev
+            CallerRenderDriver                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromRenderDevDriver
+            CalleeCaptureDevice                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToCaptureDev
+            CalleeCaptureDriver                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToCaptureDriver
+            CalleeRenderDevice                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToRenderDev
+            CalleeRenderDriver                  = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToRenderDevDriver
+            CallerConnectivityIce               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromConnectivityIce
+            CalleeConnectivityIce               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToConnectivityIce
+            CallerVPN                           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromVPN
+            CalleeVPN                           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToVPN
+            CallerNetworkConnectionDetial       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromNetworkConnectionDetail
+            CalleeNetworkConnectionDetail       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToNetworkConnectionDetail
+            CallerReflexiveLocalIPAddr          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).FromReflexiveLocalIPAddr
+            CalleeReflexiveLocalIPAddr          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "data"}).ToReflexiveLocalIPAddr
+            CallerJitter                        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam JitterInterArrival -strDirection 'FROM-to-TO'
+            CallerJitterMax                     = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam JitterInterArrivalMax -strDirection 'FROM-to-TO'
+            CallerRoundTrip                     = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RoundTrip -strDirection 'FROM-to-TO'
+            CallerRoundTripMax                  = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RoundTripMax -strDirection 'FROM-to-TO'
+            CallerPacketUtilization             = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam PacketUtilization -strDirection 'FROM-to-TO'
+            CallerAverageRectangleHeight        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam AverageRectangleHeight -strDirection 'FROM-to-TO'
+            CallerAverageRectangleWidth         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam AverageRectangleWidth -strDirection 'FROM-to-TO'
+            CallerRDPTileProcessingLatencyTotal = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RDPTileProcessingLatencyTotal -strDirection 'FROM-to-TO'
+            CallerCaptureTileRateTotal          = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam CapturetileRateTotal -strDirection 'FROM-to-TO'
+            CallerSpoiledTilePercentTotal       = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam SpoiledTilePercentTotal -strDirection 'FROM-to-TO'
+            CallerScrapingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam ScrapingFrameRateTotal -strDirection 'FROM-to-TO'
+            CallerIncomingTileRateTotal         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam IncomingTileRateTotal -strDirection 'FROM-to-TO'
+            CallerIncomingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam IncomingFrameRateTotal -strDirection 'FROM-to-TO'
+            CallerOutgoingTileRateTotal         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam OutgoingTileRateTotal -strDirection 'FROM-to-TO'
+            CallerOutgoingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam OutgoingFrameRateTotal -strDirection 'FROM-to-TO'
+            CallerStreamDirection               = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam StreamDirection -strDirection 'FROM-to-TO'
+            CalleeJitter                        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam JitterInterArrival -strDirection 'TO-to-FROM'
+            CalleeJitterMax                     = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam JitterInterArrivalMax -strDirection 'TO-to-FROM'
+            CalleeRoundTrip                     = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RoundTrip -strDirection 'TO-to-FROM'
+            CalleeRoundTripMax                  = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RoundTripMax -strDirection 'TO-to-FROM'
+            CalleePacketUtilization             = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam PacketUtilization -strDirection 'TO-to-FROM'
+            CalleeAverageRectangleHeight        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam AverageRectangleHeight -strDirection 'TO-to-FROM'
+            CalleeAverageRectangleWidth         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam AverageRectangleWidth -strDirection 'TO-to-FROM'
+            CalleeRDPTileProcessingLatencyTotal = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam RDPTileProcessingLatencyTotal -strDirection 'TO-to-FROM'
+            CalleeCaptureTileRateTotal          = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam CapturetileRateTotal -strDirection 'TO-to-FROM'
+            CalleeSpoiledTilePercentTotal       = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam SpoiledTilePercentTotal -strDirection 'TO-to-FROM'
+            CalleeScrapingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam ScrapingFrameRateTotal -strDirection 'TO-to-FROM'
+            CalleeIncomingTileRateTotal         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam IncomingTileRateTotal -strDirection 'TO-to-FROM'
+            CalleeIncomingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam IncomingFrameRateTotal -strDirection 'TO-to-FROM'
+            CalleeOutgoingTileRateTotal         = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam OutgoingTileRateTotal -strDirection 'TO-to-FROM'
+            CalleeOutgoingFrameRateTotal        = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam OutgoingFrameRateTotal -strDirection 'TO-to-FROM'
+            CalleeStreamDirection               = get-StreamParam -objParam $_.QoEReport.AppsharingStreams -strParam StreamDirection -strDirection 'TO-to-FROM'
             
-            }
+        }
         #}
     }
     return $Events
@@ -487,66 +487,66 @@ function Get-AudioEvents {
         
         #if ($FromUri -eq $sipAddress) {
 
-            [array]$Events += [PSCustomObject][ordered]@{
-                StartTime                                   = $_.StartTime
-                EndTime                                     = $_.EndTime
-                DialogId                                    = $_.DialogId
-                Conference                                  = $_.ConferenceUrl
-                CallerUri                                   = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CalleeUri                                   = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CallerIP                                    = $ipaddr.Matches($Ip[0]).value
-                CalleeIP                                    = $ipaddr.Matches($Ip[1]).value
-                CallerSubnet                                = $subnet.Matches($Ip[0]).value
-                CalleeSubnet                                = $subnet.Matches($Ip[1]).value
-                CallerUserAgent                             = $_.FromClientVersion
-                CalleeUserAgent                             = $_.ToClientVersion
-                CallerLocalReflexive                        = $_.QoeReport.MediaLines.FromReflexiveLocalIPAddr
-                CallerCaptureDevice                         = $_.QoeReport.MediaLines.FromCaptureDev
-                CallerCaptureDeviceDriver                   = $_.QoeReport.MediaLines.FromCaptureDevDriver
-                CallerRenderDevice                          = $_.QoeReport.MediaLines.FromRenderDev
-                CallerRenderDeviceDriver                    = $_.QoeReport.MediaLines.FromRenderDevDriver
-                CallerNetworkConnectionDetail               = $_.QoeReport.MediaLines.FromNetworkConnectionDetail
-                CalleeLocalReflexive                        = $_.QoeReport.MediaLines.ToReflexiveLocalIPAddr
-                CalleeCaptureDevice                         = $_.QoeReport.MediaLines.ToCaptureDev
-                CalleeCaptureDeviceDriver                   = $_.QoeReport.MediaLines.ToCaptureDevDriver
-                CalleeRenderDevice                          = $_.QoeReport.MediaLines.ToRenderDev
-                CalleeRenderDeviceDriver                    = $_.QoeReport.MediaLines.ToRenderDevDriver
-                CalleeNetworkConnectionDetail               = $_.QoeReport.MediaLines.ToNetworkConnectionDetail
-                CallerNetworkSendQualityEventRatio          = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkSendQualityEventRatio
-                CallerNetworkReceiveQualityEventRatio       = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkReceiveQualityEventRatio
-                CallerNetworkDelayEventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkDelayEventRatio
-                CallerNetworkBandwidthLowEventRatio         = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkBandwidthLowEventRatio
-                CallerCPUInsufficientEventRatio             = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).CPUInsufficientEventRatio
-                CallerDeviceRenderNotFunctioningEventRatio  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceRenderNotFunctioningEventRatio
-                CallerDeviceCaptureNotFunctioningEventRatio = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceCaptureNotFunctioningEventRatio
-                CallerDeviceGlitchesEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceGlitchesEventRatio
-                CallerDeviceLowSNREventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceLowSNREventRatio
-                CallerDeviceLowSpeechLevelEventRatio        = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceLowSpeechLevelEventRatio
-                CallerDeviceClippingEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceClippingEventRatio
-                CallerDeviceEchoEventRatio                  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceEchoEventRatio
-                CallerDeviceNearEndToEchoRatioEventRatio    = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceNearEndToEchoRatioEventRatio
-                CallerDeviiceRenderZeroVolumeEventRatio     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviiceRenderZeroVolumeEventRatio
-                CallerDeviceRenderMuteEventRatio            = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceRenderMuteEventRatio
-                CallerDeviceMultipleEndpointsEventCount     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceMultipleEndpointsEventCount
-                CallerDeviceHowlingEventCount               = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceHowlingEventCount
-                CalleeNetworkSendQualityEventRatio          = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkSendQualityEventRatio
-                CalleeNetworkReceiveQualityEventRatio       = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkReceiveQualityEventRatio
-                CalleeNetworkDelayEventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkDelayEventRatio
-                CalleeNetworkBandwidthLowEventRatio         = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkBandwidthLowEventRatio
-                CalleeCPUInsufficientEventRatio             = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).CPUInsufficientEventRatio
-                CalleeDeviceRenderNotFunctioningEventRatio  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceRenderNotFunctioningEventRatio
-                CalleeDeviceCaptureNotFunctioningEventRatio = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceCaptureNotFunctioningEventRatio
-                CalleeDeviceGlitchesEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceGlitchesEventRatio
-                CalleeDeviceLowSNREventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceLowSNREventRatio
-                CalleeDeviceLowSpeechLevelEventRatio        = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceLowSpeechLevelEventRatio
-                CalleeDeviceClippingEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceClippingEventRatio
-                CalleeDeviceEchoEventRatio                  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceEchoEventRatio
-                CalleeDeviceNearEndToEchoRatioEventRatio    = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceNearEndToEchoRatioEventRatio
-                CalleeDeviiceRenderZeroVolumeEventRatio     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviiceRenderZeroVolumeEventRatio
-                CalleeDeviceRenderMuteEventRatio            = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceRenderMuteEventRatio
-                CalleeDeviceMultipleEndpointsEventCount     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceMultipleEndpointsEventCount
-                CalleeDeviceHowlingEventCount               = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceHowlingEventCount
-            }
+        [array]$Events += [PSCustomObject][ordered]@{
+            StartTime                                   = $_.StartTime
+            EndTime                                     = $_.EndTime
+            DialogId                                    = $_.DialogId
+            Conference                                  = $_.ConferenceUrl
+            CallerUri                                   = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CalleeUri                                   = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CallerIP                                    = $ipaddr.Matches($Ip[0]).value
+            CalleeIP                                    = $ipaddr.Matches($Ip[1]).value
+            CallerSubnet                                = $subnet.Matches($Ip[0]).value
+            CalleeSubnet                                = $subnet.Matches($Ip[1]).value
+            CallerUserAgent                             = $_.FromClientVersion
+            CalleeUserAgent                             = $_.ToClientVersion
+            CallerLocalReflexive                        = $_.QoeReport.MediaLines.FromReflexiveLocalIPAddr
+            CallerCaptureDevice                         = $_.QoeReport.MediaLines.FromCaptureDev
+            CallerCaptureDeviceDriver                   = $_.QoeReport.MediaLines.FromCaptureDevDriver
+            CallerRenderDevice                          = $_.QoeReport.MediaLines.FromRenderDev
+            CallerRenderDeviceDriver                    = $_.QoeReport.MediaLines.FromRenderDevDriver
+            CallerNetworkConnectionDetail               = $_.QoeReport.MediaLines.FromNetworkConnectionDetail
+            CalleeLocalReflexive                        = $_.QoeReport.MediaLines.ToReflexiveLocalIPAddr
+            CalleeCaptureDevice                         = $_.QoeReport.MediaLines.ToCaptureDev
+            CalleeCaptureDeviceDriver                   = $_.QoeReport.MediaLines.ToCaptureDevDriver
+            CalleeRenderDevice                          = $_.QoeReport.MediaLines.ToRenderDev
+            CalleeRenderDeviceDriver                    = $_.QoeReport.MediaLines.ToRenderDevDriver
+            CalleeNetworkConnectionDetail               = $_.QoeReport.MediaLines.ToNetworkConnectionDetail
+            CallerNetworkSendQualityEventRatio          = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkSendQualityEventRatio
+            CallerNetworkReceiveQualityEventRatio       = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkReceiveQualityEventRatio
+            CallerNetworkDelayEventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkDelayEventRatio
+            CallerNetworkBandwidthLowEventRatio         = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).NetworkBandwidthLowEventRatio
+            CallerCPUInsufficientEventRatio             = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).CPUInsufficientEventRatio
+            CallerDeviceRenderNotFunctioningEventRatio  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceRenderNotFunctioningEventRatio
+            CallerDeviceCaptureNotFunctioningEventRatio = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceCaptureNotFunctioningEventRatio
+            CallerDeviceGlitchesEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceGlitchesEventRatio
+            CallerDeviceLowSNREventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceLowSNREventRatio
+            CallerDeviceLowSpeechLevelEventRatio        = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceLowSpeechLevelEventRatio
+            CallerDeviceClippingEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceClippingEventRatio
+            CallerDeviceEchoEventRatio                  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceEchoEventRatio
+            CallerDeviceNearEndToEchoRatioEventRatio    = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceNearEndToEchoRatioEventRatio
+            CallerDeviiceRenderZeroVolumeEventRatio     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviiceRenderZeroVolumeEventRatio
+            CallerDeviceRenderMuteEventRatio            = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceRenderMuteEventRatio
+            CallerDeviceMultipleEndpointsEventCount     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceMultipleEndpointsEventCount
+            CallerDeviceHowlingEventCount               = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $True}).DeviceHowlingEventCount
+            CalleeNetworkSendQualityEventRatio          = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkSendQualityEventRatio
+            CalleeNetworkReceiveQualityEventRatio       = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkReceiveQualityEventRatio
+            CalleeNetworkDelayEventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkDelayEventRatio
+            CalleeNetworkBandwidthLowEventRatio         = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).NetworkBandwidthLowEventRatio
+            CalleeCPUInsufficientEventRatio             = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).CPUInsufficientEventRatio
+            CalleeDeviceRenderNotFunctioningEventRatio  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceRenderNotFunctioningEventRatio
+            CalleeDeviceCaptureNotFunctioningEventRatio = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceCaptureNotFunctioningEventRatio
+            CalleeDeviceGlitchesEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceGlitchesEventRatio
+            CalleeDeviceLowSNREventRatio                = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceLowSNREventRatio
+            CalleeDeviceLowSpeechLevelEventRatio        = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceLowSpeechLevelEventRatio
+            CalleeDeviceClippingEventRatio              = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceClippingEventRatio
+            CalleeDeviceEchoEventRatio                  = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceEchoEventRatio
+            CalleeDeviceNearEndToEchoRatioEventRatio    = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceNearEndToEchoRatioEventRatio
+            CalleeDeviiceRenderZeroVolumeEventRatio     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviiceRenderZeroVolumeEventRatio
+            CalleeDeviceRenderMuteEventRatio            = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceRenderMuteEventRatio
+            CalleeDeviceMultipleEndpointsEventCount     = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceMultipleEndpointsEventCount
+            CalleeDeviceHowlingEventCount               = $_.QoeReport.AudioClientEvents.where( {$_.SubmittedByFromUser -eq $False}).DeviceHowlingEventCount
+        }
         #} 
     }
     return $Events
@@ -581,58 +581,58 @@ function Get-AudioQuality {
         
         #if ($FromUri -eq $sipAddress) {
 
-            [array]$Events += [PSCustomObject][ordered]@{
-                StartTime                        = $_.StartTime
-                EndTime                          = $_.EndTime
-                ConferenceUrl                    = $_.ConferenceUrl
-                CallerUri                        = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CalleeUri                        = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CallerUserAgent                  = $_.FromClientVersion
-                CalleeUserAgent                  = $_.ToClientVersion
-                CallerIP                         = $ipaddr.Matches($Ip[0]).value
-                CalleeIP                         = $ipaddr.Matches($Ip[1]).value
-                CallerSubnet                     = $subnet.Matches($Ip[0]).value
-                CalleeSubnet                     = $subnet.Matches($Ip[1]).value
-                MediaStartTime                   = $_.QoeReport.Session.MediaStartTime
-                MediaEndTime                     = $_.QoeReport.Session.MediaEndTime
-                MediaDurationInSeconds           = ($_.QoeReport.Session.MediaEndTime - $_.QoeReport.Session.MediaStartTime).Seconds
-                AudioTransport                   = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).Transport
-                AudioFromCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDev
-                AudioFromCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDevDriver
-                AudioToCaptureDevice             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDev
-                AudioToCaptureDriver             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDriver
-                AudioFromConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromConnectivityIce
-                AudioToConnectivityIce           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToConnectivityIce
-                AudioFromVPN                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromVPN
-                AudioToVPN                       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToVPN
-                AudioFromNetworkConnectionDetial = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromNetworkConnectionDetail
-                AudioToNetworkConnectionDetail   = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToNetworkConnectionDetail
-                AudioFromReflexiveLocalIPAddr    = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromReflexiveLocalIPAddr
-                AudioToReflexiveLocalIPAddr      = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToReflexiveLocalIPAddr
-                CallerJitter                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrival -strDirection 'FROM-to-TO'
-                CallerJitterMax                  = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrivalMax -strDirection 'FROM-to-TO'
-                CallerPacketLossRate             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRate -strDirection 'FROM-to-TO'
-                CallerPacketLossRateMax          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRateMax -strDirection 'FROM-to-TO'
-                CallerRoundTrip                  = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTrip -strDirection 'FROM-to-TO'
-                CallerRoundTripMax               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTripMax -strDirection 'FROM-to-TO'
-                CallerAvgNetworkMOS              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam OverallAvgNetworkMOS -strDirection 'FROM-to-TO'
-                CallerSendListenMOS              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam SendListenMOS -strDirection 'FROM-to-TO'
-                CallerBandwidthEst               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam BandwidthEst -strDirection 'FROM-to-TO'
-                CallerAudioFECUsed               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam AudioFECUsed -strDirection 'FROM-to-TO'
-                CallerPayloadDescription         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PayloadDescription -strDirection 'FROM-to-TO'
-                CalleeJitter                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrival -strDirection 'TO-to-FROM'
-                CalleeJitterMax                  = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrivalMax -strDirection 'TO-to-FROM'
-                CalleePacketLossRate             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRate -strDirection 'TO-to-FROM'
-                CalleePacketLossRateMax          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRateMax -strDirection 'TO-to-FROM'
-                CalleeRoundTrip                  = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTrip -strDirection 'TO-to-FROM'
-                CalleeRoundTripMax               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTripMax -strDirection 'TO-to-FROM'
-                CalleeAvgNetworkMOS              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam OverallAvgNetworkMOS -strDirection 'TO-to-FROM'
-                CalleeSendListenMOS              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam SendListenMOS -strDirection 'TO-to-FROM'
-                CalleeBandwidthEst               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam BandwidthEst -strDirection 'TO-to-FROM'
-                CalleeAudioFECUsed               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam AudioFECUsed -strDirection 'TO-to-FROM'
-                CalleePayloadDescription         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PayloadDescription -strDirection 'TO-to-FROM'
+        [array]$Events += [PSCustomObject][ordered]@{
+            StartTime                        = $_.StartTime
+            EndTime                          = $_.EndTime
+            ConferenceUrl                    = $_.ConferenceUrl
+            CallerUri                        = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CalleeUri                        = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CallerUserAgent                  = $_.FromClientVersion
+            CalleeUserAgent                  = $_.ToClientVersion
+            CallerIP                         = $ipaddr.Matches($Ip[0]).value
+            CalleeIP                         = $ipaddr.Matches($Ip[1]).value
+            CallerSubnet                     = $subnet.Matches($Ip[0]).value
+            CalleeSubnet                     = $subnet.Matches($Ip[1]).value
+            MediaStartTime                   = $_.QoeReport.Session.MediaStartTime
+            MediaEndTime                     = $_.QoeReport.Session.MediaEndTime
+            MediaDurationInSeconds           = ($_.QoeReport.Session.MediaEndTime - $_.QoeReport.Session.MediaStartTime).Seconds
+            AudioTransport                   = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).Transport
+            AudioFromCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDev
+            AudioFromCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDevDriver
+            AudioToCaptureDevice             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDev
+            AudioToCaptureDriver             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDriver
+            AudioFromConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromConnectivityIce
+            AudioToConnectivityIce           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToConnectivityIce
+            AudioFromVPN                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromVPN
+            AudioToVPN                       = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToVPN
+            AudioFromNetworkConnectionDetial = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromNetworkConnectionDetail
+            AudioToNetworkConnectionDetail   = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToNetworkConnectionDetail
+            AudioFromReflexiveLocalIPAddr    = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromReflexiveLocalIPAddr
+            AudioToReflexiveLocalIPAddr      = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToReflexiveLocalIPAddr
+            CallerJitter                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrival -strDirection 'FROM-to-TO'
+            CallerJitterMax                  = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrivalMax -strDirection 'FROM-to-TO'
+            CallerPacketLossRate             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRate -strDirection 'FROM-to-TO'
+            CallerPacketLossRateMax          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRateMax -strDirection 'FROM-to-TO'
+            CallerRoundTrip                  = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTrip -strDirection 'FROM-to-TO'
+            CallerRoundTripMax               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTripMax -strDirection 'FROM-to-TO'
+            CallerAvgNetworkMOS              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam OverallAvgNetworkMOS -strDirection 'FROM-to-TO'
+            CallerSendListenMOS              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam SendListenMOS -strDirection 'FROM-to-TO'
+            CallerBandwidthEst               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam BandwidthEst -strDirection 'FROM-to-TO'
+            CallerAudioFECUsed               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam AudioFECUsed -strDirection 'FROM-to-TO'
+            CallerPayloadDescription         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PayloadDescription -strDirection 'FROM-to-TO'
+            CalleeJitter                     = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrival -strDirection 'TO-to-FROM'
+            CalleeJitterMax                  = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam JitterInterArrivalMax -strDirection 'TO-to-FROM'
+            CalleePacketLossRate             = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRate -strDirection 'TO-to-FROM'
+            CalleePacketLossRateMax          = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PacketLossRateMax -strDirection 'TO-to-FROM'
+            CalleeRoundTrip                  = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTrip -strDirection 'TO-to-FROM'
+            CalleeRoundTripMax               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam RoundTripMax -strDirection 'TO-to-FROM'
+            CalleeAvgNetworkMOS              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam OverallAvgNetworkMOS -strDirection 'TO-to-FROM'
+            CalleeSendListenMOS              = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam SendListenMOS -strDirection 'TO-to-FROM'
+            CalleeBandwidthEst               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam BandwidthEst -strDirection 'TO-to-FROM'
+            CalleeAudioFECUsed               = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam AudioFECUsed -strDirection 'TO-to-FROM'
+            CalleePayloadDescription         = get-StreamParam -objParam $_.QoEReport.AudioStreams -strParam PayloadDescription -strDirection 'TO-to-FROM'
                 
-            }
+        }
         #}
     }
 
@@ -667,77 +667,77 @@ function Get-VideoAppSharingStreams {
         #if ($FromUri -eq $sipAddress) {
 
 
-            [array]$Events += [PSCustomObject][ordered]@{
-                SipAddress                    = $sipAddress
-                StartTime                     = $_.StartTime
-                EndTime                       = $_.EndTime
-                DialogId                      = $_.DialogId
-                Conference                    = $_.ConferenceUrl
-                CallerUri                     = $_.FromUri
-                CalleeUri                     = $_.ToUri
-                CallerIP                      = $ipaddr.Matches($Ip[0]).value
-                CalleeIP                      = $ipaddr.Matches($Ip[1]).value
-                CallerSubnet                  = $subnet.Matches($Ip[0]).value
-                CalleeSubnet                  = $subnet.Matches($Ip[1]).value
-                CallerUserAgent               = $_.FromClientVersion
-                CalleeUserAgent               = $_.ToClientVersion
-                MediaType                     = $_.MediaTypesDescription
-                MediaStartTime                = $_.QoeReport.Session.MediaStartTime
-                MediaEndTime                  = $_.QoeReport.Session.MediaEndTime
-                MediaDurationInSeconds        = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
-                CallerLocalReflexive          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromReflexiveLocalIPAddr
-                CalleeLocalReflexive          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToReflexiveLocalIPAddr
-                CallerRelayIPAddr             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromRelayIPAddr
-                CalleeRelayIPAddr             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToRelayIPAddr
-                CallerNetworkConnectionDetail = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromNetworkConnectionDetail
-                CalleeNetworkConnectionDetail = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToNetworkConnectionDetail
-                CallerTransport               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).Transport
-                CallerCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromCaptureDev
-                CalleeCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToCaptureDev
-                CallerCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromCaptureDevDriver
-                CalleeCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToCaptureDevDriver
-                CallerRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromRenderDev
-                CalleeRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToRenderDev
-                CallerRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromRenderDevDriver
-                CalleeRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToRenderDevDriver
-                CallerConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromConnectivityIce
-                CalleeConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToConnectivityIce
-                CallerMediaIP                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromIPAddr
-                CalleeMediaIP                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToIPAddr
-                Jitter                        = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).JitterInterArrival
-                JitterMax                     = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).JitterInterArrivalMax
-                PacketLossRate                = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).PacketLossRate
-                PacketLossRateMax             = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).PacketLossRateMax
-                RoundTrip                     = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RoundTrip
-                RoundTripMax                  = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RoundTripMax
-                BandwidthEst                  = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).BandwidthEst
-                PayloadDescription            = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).PayloadDescription
-                SendCodecTypes                = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendCodecTypes
-                SendResolutionWidth           = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendResolutionWidth
-                SendResolutionHeight          = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendResolutionHeight
-                SendFrameRateAverage          = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendFrameRateAverage
-                SendBitRateAverage            = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendBitRateAverage
-                SendBitRateMaximum            = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendBitRateMaximum
-                SendVideoStreamsMax           = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendVideoStreamsMax
-                RecvCodecTypes                = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvCodecTypes
-                RecvResolutionWidth           = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvResolutionWidth
-                RecvResolutionHeight          = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvResolutionHeight
-                RecvFrameRateAverage          = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvFrameRateAverage
-                RecvBitRateAverage            = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvBitRateAverage
-                RecvBitRateMaximum            = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvBitRateMaximum
-                CIFQualityRatio               = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).CIFQualityRatio
-                VGAQualityRatio               = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).VGAQualityRatio
-                HD720QualityRatio             = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).HD720QualityRatio
-                VideoPostFECPLR               = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).VideoPostFECPLR
-                LowFrameRateCallPercent       = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).LowFrameRateCallPercent
-                LowBitRateCallPercent         = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).LowBitRateCallPercent
-                LowResolutionCallPercent      = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).LowResolutionCallPercent
-                DynamicCapabilityPercent      = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).DynamicCapabilityPercent
-                StreamDirection               = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).StreamDirection
-                FallBackStatus                = $FBStatus
-                FallBackReason                = $FBReason
+        [array]$Events += [PSCustomObject][ordered]@{
+            SipAddress                    = $sipAddress
+            StartTime                     = $_.StartTime
+            EndTime                       = $_.EndTime
+            DialogId                      = $_.DialogId
+            Conference                    = $_.ConferenceUrl
+            CallerUri                     = $_.FromUri
+            CalleeUri                     = $_.ToUri
+            CallerIP                      = $ipaddr.Matches($Ip[0]).value
+            CalleeIP                      = $ipaddr.Matches($Ip[1]).value
+            CallerSubnet                  = $subnet.Matches($Ip[0]).value
+            CalleeSubnet                  = $subnet.Matches($Ip[1]).value
+            CallerUserAgent               = $_.FromClientVersion
+            CalleeUserAgent               = $_.ToClientVersion
+            MediaType                     = $_.MediaTypesDescription
+            MediaStartTime                = $_.QoeReport.Session.MediaStartTime
+            MediaEndTime                  = $_.QoeReport.Session.MediaEndTime
+            MediaDurationInSeconds        = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
+            CallerLocalReflexive          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromReflexiveLocalIPAddr
+            CalleeLocalReflexive          = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToReflexiveLocalIPAddr
+            CallerRelayIPAddr             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromRelayIPAddr
+            CalleeRelayIPAddr             = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToRelayIPAddr
+            CallerNetworkConnectionDetail = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromNetworkConnectionDetail
+            CalleeNetworkConnectionDetail = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToNetworkConnectionDetail
+            CallerTransport               = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).Transport
+            CallerCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromCaptureDev
+            CalleeCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToCaptureDev
+            CallerCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromCaptureDevDriver
+            CalleeCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToCaptureDevDriver
+            CallerRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromRenderDev
+            CalleeRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToRenderDev
+            CallerRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromRenderDevDriver
+            CalleeRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToRenderDevDriver
+            CallerConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromConnectivityIce
+            CalleeConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToConnectivityIce
+            CallerMediaIP                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).FromIPAddr
+            CalleeMediaIP                 = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "applicationsharing-video"}).ToIPAddr
+            Jitter                        = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).JitterInterArrival
+            JitterMax                     = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).JitterInterArrivalMax
+            PacketLossRate                = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).PacketLossRate
+            PacketLossRateMax             = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).PacketLossRateMax
+            RoundTrip                     = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RoundTrip
+            RoundTripMax                  = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RoundTripMax
+            BandwidthEst                  = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).BandwidthEst
+            PayloadDescription            = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).PayloadDescription
+            SendCodecTypes                = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendCodecTypes
+            SendResolutionWidth           = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendResolutionWidth
+            SendResolutionHeight          = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendResolutionHeight
+            SendFrameRateAverage          = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendFrameRateAverage
+            SendBitRateAverage            = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendBitRateAverage
+            SendBitRateMaximum            = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendBitRateMaximum
+            SendVideoStreamsMax           = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).SendVideoStreamsMax
+            RecvCodecTypes                = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvCodecTypes
+            RecvResolutionWidth           = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvResolutionWidth
+            RecvResolutionHeight          = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvResolutionHeight
+            RecvFrameRateAverage          = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvFrameRateAverage
+            RecvBitRateAverage            = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvBitRateAverage
+            RecvBitRateMaximum            = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).RecvBitRateMaximum
+            CIFQualityRatio               = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).CIFQualityRatio
+            VGAQualityRatio               = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).VGAQualityRatio
+            HD720QualityRatio             = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).HD720QualityRatio
+            VideoPostFECPLR               = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).VideoPostFECPLR
+            LowFrameRateCallPercent       = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).LowFrameRateCallPercent
+            LowBitRateCallPercent         = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).LowBitRateCallPercent
+            LowResolutionCallPercent      = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).LowResolutionCallPercent
+            DynamicCapabilityPercent      = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).DynamicCapabilityPercent
+            StreamDirection               = $_.QoEReport.VideoStreams.where( {$_.VideoMediaLineLabelText -eq "applicationsharing-video"}).StreamDirection
+            FallBackStatus                = $FBStatus
+            FallBackReason                = $FBReason
 
-            } 
+        } 
         #}
     }
     return $Events
@@ -885,29 +885,29 @@ function Get-SetupOrDrops {
         
         #if ($FromUri -eq $sipAddress) {
 
-            [array]$DiagErrors += [PSCustomObject][ordered]@{
-                SipAddress             = $sipAddress
-                StartTime              = $_.StartTime
-                EndTime                = $_.EndTime
-                DialogId               = $_.DialogId
-                ConferenceUrl          = $_.ConferenceUrl
-                Source                 = $Source
-                MediaType              = $_.MediaTypesDescription
-                MediaStartTime         = $_.QoeReport.Session.MediaStartTime
-                MediaEndTime           = $_.QoeReport.Session.MediaEndTime
-                MediaDurationInSeconds = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
-                CallerUri              = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CalleeUri              = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CallerUserAgent        = $_.FromClientVersion
-                CalleeUserAgent        = $_.ToClientVersion
-                CallerIp               = $xCallerIP
-                CallerSubnet           = $subnet.Matches($xCallerIP).value
-                CallerRflxIp           = $xCallerRflx
-                CallerRflxSubnet       = $subnet.Matches($CallerRflx).value
-                DiagnosticId           = $_.ErrorReports.Where( {$_.RequestType -eq "BYE"}).DiagnosticId | Select-Object -First 1
-                Reason                 = $_.ErrorReports.Where( {$_.RequestType -eq "BYE"}).DiagnosticHeader.Split(";") -match "reason" | ForEach-Object {$_.split('"')[1]} | Select-Object -First 1
+        [array]$DiagErrors += [PSCustomObject][ordered]@{
+            SipAddress             = $sipAddress
+            StartTime              = $_.StartTime
+            EndTime                = $_.EndTime
+            DialogId               = $_.DialogId
+            ConferenceUrl          = $_.ConferenceUrl
+            Source                 = $Source
+            MediaType              = $_.MediaTypesDescription
+            MediaStartTime         = $_.QoeReport.Session.MediaStartTime
+            MediaEndTime           = $_.QoeReport.Session.MediaEndTime
+            MediaDurationInSeconds = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
+            CallerUri              = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CalleeUri              = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CallerUserAgent        = $_.FromClientVersion
+            CalleeUserAgent        = $_.ToClientVersion
+            CallerIp               = $xCallerIP
+            CallerSubnet           = $subnet.Matches($xCallerIP).value
+            CallerRflxIp           = $xCallerRflx
+            CallerRflxSubnet       = $subnet.Matches($CallerRflx).value
+            DiagnosticId           = $_.ErrorReports.Where( {$_.RequestType -eq "BYE"}).DiagnosticId | Select-Object -First 1
+            Reason                 = $_.ErrorReports.Where( {$_.RequestType -eq "BYE"}).DiagnosticHeader.Split(";") -match "reason" | ForEach-Object {$_.split('"')[1]} | Select-Object -First 1
 
-            }
+        }
         #}
     }
     
@@ -948,63 +948,63 @@ function Get-RMC {
         
         #if ($FromUri -eq $sipAddress) {
 
-            [array]$RMCFeedback += [PSCustomObject][ordered]@{
-                SipAddress                         = $sipAddress
-                StartTime                          = $_.StartTime
-                EndTime                            = $_.EndTime
-                DialogId                           = $_.DialogId
-                Conference                         = $_.ConferenceUrl
-                CallerUri                          = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CalleeUri                          = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
-                CallerIP                           = $ipaddr.Matches($Ip[0]).value
-                CalleeIP                           = $ipaddr.Matches($Ip[1]).value
-                CallerSubnet                       = $subnet.Matches($Ip[0]).value
-                CalleeSubnet                       = $subnet.Matches($Ip[1]).value
-                CallerUserAgent                    = $_.FromClientVersion
-                CalleeUserAgent                    = $_.ToClientVersion
-                MediaType                          = $_.MediaTypesDescription
-                MediaStartTime                     = $_.QoeReport.Session.MediaStartTime
-                MediaEndTime                       = $_.QoeReport.Session.MediaEndTime
-                MediaDurationInSeconds             = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
-                AudioTransport                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).Transport
-                AudioCallerCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDev
-                AudioCallerCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDevDriver
-                AudioCallerRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromRenderDev
-                AudioCallerRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromRenderDevDriver
-                AudioCalleeCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDev
-                AudioCalleeCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDriver
-                AudioCalleeRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToRenderDev
-                AudioCalleeRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToRenderDevDriver
-                AudioCallerConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromConnectivityIce
-                AudioCalleeConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToConnectivityIce
-                AudioCallerVPN                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromVPN
-                AudioCalleeVPN                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToVPN
-                AudioCallerNetworkConnectionDetial = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromNetworkConnectionDetail
-                AudioCalleeNetworkConnectionDetail = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToNetworkConnectionDetail
-                AudioCallerReflexiveLocalIPAddr    = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromReflexiveLocalIPAddr
-                AudioCalleeReflexiveLocalIPAddr    = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToReflexiveLocalIPAddr
-                VideoTransport                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).Transport
-                VideoCallerCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromCaptureDev
-                VideoCallerCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromCaptureDevDriver
-                VideoCallerRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromRenderDev
-                VideoCallerRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromRenderDevDriver
-                VideoCalleeCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToCaptureDev
-                VideoCalleeCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToCaptureDriver
-                VideoCalleeRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToRenderDev
-                VideoCalleeRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToRenderDevDriver
-                VideoCallerConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromConnectivityIce
-                VideoCalleeConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToConnectivityIce
-                VideoCallerVPN                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromVPN
-                VideoCalleeVPN                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToVPN
-                VideoCallerNetworkConnectionDetial = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromNetworkConnectionDetail
-                VideoCalleeNetworkConnectionDetail = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToNetworkConnectionDetail
-                VideoCallerReflexiveLocalIPAddr    = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromReflexiveLocalIPAddr
-                VideoCalleeReflexiveLocalIPAddr    = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToReflexiveLocalIPAddr
-                Rating                             = $_.QoeReport.FeedBackReports.Rating
-                FeedbackText                       = $_.QoeReport.FeedBackReports.FeedbackText
-                Tokens                             = $arrTokens.Id
+        [array]$RMCFeedback += [PSCustomObject][ordered]@{
+            SipAddress                         = $sipAddress
+            StartTime                          = $_.StartTime
+            EndTime                            = $_.EndTime
+            DialogId                           = $_.DialogId
+            Conference                         = $_.ConferenceUrl
+            CallerUri                          = getUserUri -Type Caller -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CalleeUri                          = getUserUri -Type Callee -FromUri $_.FromUri -ToUri $_.ToUri -SubmittedByFromUser $_.QoeReport.AudioSignals[0].SubmittedByFromUser
+            CallerIP                           = $ipaddr.Matches($Ip[0]).value
+            CalleeIP                           = $ipaddr.Matches($Ip[1]).value
+            CallerSubnet                       = $subnet.Matches($Ip[0]).value
+            CalleeSubnet                       = $subnet.Matches($Ip[1]).value
+            CallerUserAgent                    = $_.FromClientVersion
+            CalleeUserAgent                    = $_.ToClientVersion
+            MediaType                          = $_.MediaTypesDescription
+            MediaStartTime                     = $_.QoeReport.Session.MediaStartTime
+            MediaEndTime                       = $_.QoeReport.Session.MediaEndTime
+            MediaDurationInSeconds             = (New-TimeSpan -Start $_.QoeReport.Session.MediaStartTime -End $_.QoeReport.Session.MediaEndTime).TotalSeconds
+            AudioTransport                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).Transport
+            AudioCallerCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDev
+            AudioCallerCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromCaptureDevDriver
+            AudioCallerRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromRenderDev
+            AudioCallerRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromRenderDevDriver
+            AudioCalleeCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDev
+            AudioCalleeCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToCaptureDriver
+            AudioCalleeRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToRenderDev
+            AudioCalleeRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToRenderDevDriver
+            AudioCallerConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromConnectivityIce
+            AudioCalleeConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToConnectivityIce
+            AudioCallerVPN                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromVPN
+            AudioCalleeVPN                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToVPN
+            AudioCallerNetworkConnectionDetial = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromNetworkConnectionDetail
+            AudioCalleeNetworkConnectionDetail = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToNetworkConnectionDetail
+            AudioCallerReflexiveLocalIPAddr    = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).FromReflexiveLocalIPAddr
+            AudioCalleeReflexiveLocalIPAddr    = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-audio"}).ToReflexiveLocalIPAddr
+            VideoTransport                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).Transport
+            VideoCallerCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromCaptureDev
+            VideoCallerCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromCaptureDevDriver
+            VideoCallerRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromRenderDev
+            VideoCallerRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromRenderDevDriver
+            VideoCalleeCaptureDevice           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToCaptureDev
+            VideoCalleeCaptureDriver           = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToCaptureDriver
+            VideoCalleeRenderDevice            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToRenderDev
+            VideoCalleeRenderDriver            = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToRenderDevDriver
+            VideoCallerConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromConnectivityIce
+            VideoCalleeConnectivityIce         = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToConnectivityIce
+            VideoCallerVPN                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromVPN
+            VideoCalleeVPN                     = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToVPN
+            VideoCallerNetworkConnectionDetial = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromNetworkConnectionDetail
+            VideoCalleeNetworkConnectionDetail = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToNetworkConnectionDetail
+            VideoCallerReflexiveLocalIPAddr    = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).FromReflexiveLocalIPAddr
+            VideoCalleeReflexiveLocalIPAddr    = $_.QoeReport.MediaLines.where( {$_.MediaLineLabelText -eq "main-video"}).ToReflexiveLocalIPAddr
+            Rating                             = $_.QoeReport.FeedBackReports.Rating
+            FeedbackText                       = $_.QoeReport.FeedBackReports.FeedbackText
+            Tokens                             = $arrTokens.Id
            
-            }
+        }
         #}
 
     }
@@ -1057,14 +1057,16 @@ function getSession () {
     param (
         [string]$SipAddress,
         [datetime]$startTime,
-        [datetime]$endTime
+        [datetime]$endTime,
+        [int]$instance=0
     )
 
     $dateRange = $endTime - $startTime
+    $instance++
     
     try {
         $sessions = Get-CsUserSession -User $SipAddress -startTime $startTime -endTime $endTime -ErrorAction Stop -WarningAction SilentlyContinue
-        
+ 
         if ($sessions.count -ge 1000) {
             Write-Verbose "More than 1000 sessions identified.  Breaking up time range to retreive all sessions"
             $sessions = sessionmgmt -SipAddress $SipAddress -duration $dateRange.TotalSeconds -endTime $endTime
@@ -1073,9 +1075,17 @@ function getSession () {
     }
     catch {
         Write-Host "Failed to retreive user $($SipAddress) session. Attempting to repair the session and will try again" -ForegroundColor Yellow
-        Start-Sleep -Seconds 2
-        Get-MySession -ForceUpdate
-        getSession -SipAddress $SipAddress -startTime $startTime -endTime $endTime
+        LogWrite -LogMessage $SipAddress
+        LogWrite -LogMessage $_  | Format-List * -Force
+
+        if ($instance -le 2) {
+            Start-Sleep -Seconds 2
+            Get-MySession -ForceUpdate
+            getSession -SipAddress $SipAddress -startTime $startTime -endTime $endTime -instance $instance
+        } else {
+            Write-Host "Failing to process user $($SipAddress), aborting attempt." -ForegroundColor Yellow
+            break
+        }
     }
 
     return $sessions
@@ -1128,7 +1138,8 @@ function get-BaseAddr {
                 $CalleeIP = $diagHeader.DiagnosticHeader.Split(";") -match "BaseAddress" | Select-Object -First 1
             }
             
-        } else {
+        }
+        else {
 
             # This will get P2P Callee Base Address
             if ($objError.RequestType -eq "INVITE") {
