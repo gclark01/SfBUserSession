@@ -14,7 +14,7 @@ sip:user2@contoso.com<br>
 sip:user3@contoso.com<br>
 
 ## Output
-This will output six separate reports to the report path you provided when you executed the script
+This will output seven separate reports to the report path you provided when you executed the script
 <ul>
     <li>Application Sharing</li>
     <li>Audio</li>
